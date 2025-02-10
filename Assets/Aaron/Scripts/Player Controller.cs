@@ -5,22 +5,23 @@ public class PlayerController : MonoBehaviour
 {
     private PlayerInput playerInput;
     private Rigidbody rb;
-    private Animator animator;
+    public Animator animator;
     [SerializeField] private float speed;
     [SerializeField] private int tipoMove;
     [SerializeField] private bool estaAgachado;
+    [SerializeField] private bool estCorriendo;
+    
     enum PlayerStates { caminar, caminarAgachado, correr, correrAgachado}
     [SerializeField] private PlayerStates playerStates;
-    private Vector3 moveDirection;
-    [SerializeField] private Transform hips;
-    //cbsj
+    [SerializeField] private Transform playerGiro;
+ 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         playerInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody>();
-        animator = GetComponent<Animator>();
+        //animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -38,21 +39,21 @@ public class PlayerController : MonoBehaviour
         
 
 
-        /*  moveDirection = new Vector3(horizontal, 0, vertical).normalized;
-
-         Vector3 target=Camera.main.transform.TransformDirection(moveDirection);
-
-         Quaternion rotation= Quaternion.LookRotation(target);
-
-         transform.rotation = Quaternion.Slerp(transform.rotation, rotation, speed);
-        */
+         if(InputValue!=Vector2.zero)
+        {
+            Quaternion angle=Quaternion.LookRotation(new Vector3(horizontal,0,vertical));
+            playerGiro.rotation=Quaternion.Slerp(playerGiro.rotation, angle,Time.deltaTime*10);
+        }        
 
        
-        if (estaAgachado==true && tipoMove==1 && horizontal!=0||vertical!=0 )
+        if (estaAgachado==true && tipoMove==1 && (horizontal!=0||vertical!=0) )
         {
-            
-            
             animator.SetBool("camAgachado", true);
+            speed = 0.5f;
+            if(estCorriendo==true)
+            {
+                speed = 1.25f;
+            }
         }
 
         else if(estaAgachado == true && tipoMove == 1 && horizontal == 0 || vertical == 0)
@@ -77,6 +78,7 @@ public class PlayerController : MonoBehaviour
 
         {
             animator.SetBool("walk", true);
+            speed = 1;
             tipoMove = 0;
         }
        
@@ -100,6 +102,7 @@ public class PlayerController : MonoBehaviour
             tipoMove=1;
             estaAgachado = true;
             animator.SetBool("agacharse",true);
+            speed = 0.5f;
         }
         else if(estaAgachado==true)
         {
@@ -112,14 +115,17 @@ public class PlayerController : MonoBehaviour
     public void Correr(InputAction.CallbackContext context)
     {
         
-            if(context.performed==true)
+        if(context.performed==true)
         {
             animator.SetBool("correr",true);
+            speed = 1.5f;
+            estCorriendo = true;
         }
 
         if (context.canceled == true)
         {
             animator.SetBool("correr", false);
+            estCorriendo=false;
         }
 
 
