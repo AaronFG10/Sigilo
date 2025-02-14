@@ -21,8 +21,28 @@ public class PlayerController : MonoBehaviour
     {
         playerInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody>();
-        //animator = GetComponent<Animator>();
+       
     }
+    public void Correr(InputAction.CallbackContext context)
+    {
+
+        if (context.performed == true)
+        {
+            tipoMove = 3;
+            animator.SetBool("correr", true);
+            speed = 1.5f;
+            estCorriendo = true;
+        }
+
+        if (context.canceled == true)
+        {
+            animator.SetBool("correr", false);
+            estCorriendo = false;
+        }
+
+
+    }
+
 
     // Update is called once per frame
     void Update()
@@ -31,50 +51,53 @@ public class PlayerController : MonoBehaviour
 
        
         Vector2 InputValue = playerInput.actions["Move"].ReadValue<Vector2>();
+        Debug.Log(InputValue);
         float horizontal = InputValue.x;
         float vertical = InputValue.y;
 
+        Vector3 move = ((transform.forward * vertical) + (transform.right * horizontal)) * speed;
+        move.y = rb.linearVelocity.y;
+        rb.linearVelocity = move;
 
 
-        
 
 
-         if(InputValue!=Vector2.zero)
+        if (InputValue!=Vector2.zero)
         {
             Quaternion angle=Quaternion.LookRotation(new Vector3(horizontal,0,vertical));
             playerGiro.rotation=Quaternion.Slerp(playerGiro.rotation, angle,Time.deltaTime*10);
         }        
 
        
-        if (estaAgachado==true && tipoMove==1 && (horizontal!=0||vertical!=0) )
+        if (estaAgachado==true  && (horizontal!=0||vertical!=0) )
         {
             animator.SetBool("camAgachado", true);
             speed = 0.5f;
             if(estCorriendo==true)
             {
+                tipoMove = 2;
                 speed = 1.25f;
             }
         }
 
-        else if(estaAgachado == true && tipoMove == 1 && horizontal == 0 || vertical == 0)
+        else if(estaAgachado == true  && horizontal == 0 || vertical == 0)
         {
+            tipoMove = 4;
             animator.SetBool("camAgachado", false);
         }
-        Vector3 move = ((transform.forward * vertical) + (transform.right * horizontal)) * speed;
-        move.y = rb.linearVelocity.y;
-        rb.linearVelocity = move;
 
-    }
-
-    public void UpdateRotation()
-    {
+        Debug.Log(InputValue);
+        if (InputValue==Vector2.zero)
+        {
+            tipoMove = 4;
+        }
 
     }
 
     public void Move(InputAction.CallbackContext context)
     {
         
-        if (estaAgachado==false)
+        if (estaAgachado== false && estCorriendo == false)
 
         {
             animator.SetBool("walk", true);
@@ -112,24 +135,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void Correr(InputAction.CallbackContext context)
-    {
-        
-        if(context.performed==true)
-        {
-            animator.SetBool("correr",true);
-            speed = 1.5f;
-            estCorriendo = true;
-        }
 
-        if (context.canceled == true)
-        {
-            animator.SetBool("correr", false);
-            estCorriendo=false;
-        }
-
-
-    }
 
     
 }
