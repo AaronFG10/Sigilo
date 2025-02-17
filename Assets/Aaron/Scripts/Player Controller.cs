@@ -7,12 +7,14 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rb;
     public Animator animator;
     [SerializeField] private float speed;
-    [SerializeField] private int tipoMove;
+    public int tipoMove;
     [SerializeField] private bool estaAgachado;
     [SerializeField] private bool estCorriendo;
+
+    [SerializeField] private bool interactuable;
     
-    enum PlayerStates { caminar, caminarAgachado, correr, correrAgachado}
-    [SerializeField] private PlayerStates playerStates;
+    
+   
     [SerializeField] private Transform playerGiro;
  
 
@@ -59,6 +61,10 @@ public class PlayerController : MonoBehaviour
         move.y = rb.linearVelocity.y;
         rb.linearVelocity = move;
 
+        if(InputValue==Vector2.zero)
+        {
+            tipoMove = 4;
+        }
 
 
 
@@ -69,9 +75,11 @@ public class PlayerController : MonoBehaviour
         }        
 
        
-        if (estaAgachado==true  && (horizontal!=0||vertical!=0) )
+        if (estaAgachado==true  && (InputValue != Vector2.zero) )
         {
+           
             animator.SetBool("camAgachado", true);
+            tipoMove=1;
             speed = 0.5f;
             if(estCorriendo==true)
             {
@@ -80,17 +88,17 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        else if(estaAgachado == true  && horizontal == 0 || vertical == 0)
+        else if(estaAgachado == true && InputValue==Vector2.zero)
         {
             tipoMove = 4;
             animator.SetBool("camAgachado", false);
         }
 
         Debug.Log(InputValue);
-        if (InputValue==Vector2.zero)
+        /*if (InputValue==Vector2.zero)
         {
             tipoMove = 4;
-        }
+        }*/
 
     }
 
@@ -124,6 +132,7 @@ public class PlayerController : MonoBehaviour
         {
             tipoMove=1;
             estaAgachado = true;
+            animator.SetBool("walk", false);
             animator.SetBool("agacharse",true);
             speed = 0.5f;
         }
@@ -135,7 +144,29 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void Interactuar(InputAction.CallbackContext context)
+    {
+        if(interactuable==true)
+        {
+           // Debug
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+      //  if(other.gameObject.tag="objeto")
+        {
+
+        }
+        interactuable = true;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        interactuable = false;
+    }
 
 
-    
+
+
 }
