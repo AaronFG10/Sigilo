@@ -1,6 +1,9 @@
+using System;
 using UnityEngine;
 
-public class GameData : MonoBehaviour
+
+[Serializable]
+public class GameData
 {
 
     [SerializeField] private bool key1;

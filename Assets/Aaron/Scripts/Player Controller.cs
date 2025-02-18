@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,10 +13,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool estCorriendo;
 
     [SerializeField] private bool interactuable;
-    
-    
-   
+    [SerializeField] private bool trap;
+
+
     [SerializeField] private Transform playerGiro;
+
  
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -53,7 +55,7 @@ public class PlayerController : MonoBehaviour
 
        
         Vector2 InputValue = playerInput.actions["Move"].ReadValue<Vector2>();
-        Debug.Log(InputValue);
+       
         float horizontal = InputValue.x;
         float vertical = InputValue.y;
 
@@ -94,7 +96,7 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("camAgachado", false);
         }
 
-        Debug.Log(InputValue);
+     
         /*if (InputValue==Vector2.zero)
         {
             tipoMove = 4;
@@ -146,27 +148,76 @@ public class PlayerController : MonoBehaviour
 
     public void Interactuar(InputAction.CallbackContext context)
     {
-        if(interactuable==true)
+        if(interactuable==true && context.performed == true)
         {
-           // Debug
+          
+            GameManager.instance.gameData.Key1 = true;
+            animator.SetTrigger("coger");
+        }
+        if(trap==true && context.canceled == true)
+        {
+            Debug.Log("NDSN");
+            trap = false;
+            animator.SetBool("desac", true);
+            StartCoroutine(DesacTrap());
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-      //  if(other.gameObject.tag="objeto")
+        
+       if(other.gameObject.tag=="objeto")
         {
-
+            Debug.Log("bds");
+            interactuable = true;
         }
-        interactuable = true;
+        if (other.gameObject.tag == "trampa")
+        {
+            trap = true;
+        }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        interactuable = false;
+        if (other.gameObject.tag == "objeto")
+        {
+            interactuable = false;     
+        }
+        if(other.gameObject.tag=="trampa")
+        {
+            trap=false;
+        }
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if(other.gameObject.tag=="door")
+        {
+            if(GameManager.instance.gameData.Key1 == true)
+            {
+                other.transform.position = new Vector3(other.transform.position.x, other.transform.position.y+3, other.transform.position.z);
+            }
+        }
+        if (GameManager.instance.gameData.Key1 == true && interactuable==true)
+        {
+            interactuable=false;
+            Destroy(other.gameObject,0.5f);
+        }
+    }
 
-
+     IEnumerator DesacTrap()
+    {
+        
+        float t = 0;
+        while (t < 2)
+        {
+            t+=Time.deltaTime;
+            Debug.Log(t);
+            rb.linearVelocity=Vector3.zero;
+            yield return null;
+        }
+        animator.SetBool("desac", false);
+        yield return null;
+    }
 
 }
