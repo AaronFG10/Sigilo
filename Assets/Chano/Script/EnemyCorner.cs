@@ -21,7 +21,7 @@ public class EnemyCorner : EnemyBase
             Quaternion rotacionInicial = transform.rotation;
             Quaternion rotacionFinal = rotacionInicial * Quaternion.Euler(0, angulo, 0);
             float tiempo = 0f;
-            float duracionGiro = 0.5f;
+            float duracionGiro = 0.5f; //El total de segundos que tardará mientras gira
 
             while (tiempo < duracionGiro)
             {
