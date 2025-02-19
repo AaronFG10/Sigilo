@@ -154,11 +154,13 @@ public class PlayerController : MonoBehaviour
             GameManager.instance.gameData.Key1 = true;
             animator.SetTrigger("coger");
         }
-        if(trap==true && context.canceled == true)
+        if(trap==true && context.started == true)
         {
+            
             Debug.Log("NDSN");
             trap = false;
-            animator.SetBool("desac", true);
+            animator.SetTrigger("desac");
+           
             StartCoroutine(DesacTrap());
         }
     }
@@ -209,15 +211,17 @@ public class PlayerController : MonoBehaviour
     {
         
         float t = 0;
-        while (t < 2)
+        while (t < 3)
         {
             t+=Time.deltaTime;
             Debug.Log(t);
             rb.linearVelocity=Vector3.zero;
             yield return null;
         }
-        animator.SetBool("desac", false);
+        
         yield return null;
+        Debug.Log("fs");
+        
     }
 
 }
