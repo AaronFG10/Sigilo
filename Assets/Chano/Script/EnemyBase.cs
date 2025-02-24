@@ -1,57 +1,97 @@
 using UnityEngine;
-
+using UnityEngine.UI; // Necesario para trabajar con UI
+using System.Collections;
 public class EnemyBase : MonoBehaviour
 {
-    public float RangoVision = 10f;
-    public float RangoOido = 5f;
-    public float fieldOfView = 90f;
-    public Transform player;
+    [SerializeField] private SphereCollider areaDeEscucha;
+    [SerializeField] private float tiempoParaDetectar = 3f;
+    [SerializeField] private float velocidadPerdida = 1f;
+    private float barraAlerta = 0f;
+    private bool jugadorEnRango = false;
+    private PlayerController jugador;
 
-    protected bool playerInSight;
-    protected bool playerHeard;
+    [SerializeField] private Image barraDeAvistamiento; // Referencia a la barra de UI
 
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        DetectPlayer();
-    }
-
-    private void DetectPlayer()
-    {
-        playerInSight = CheckVision();
-        playerHeard = CheckHearing();
-
-        if (playerInSight || playerHeard)
+        if (other.CompareTag("Player"))
         {
-            OnPlayerDetected();
+            jugador = other.GetComponent<PlayerController>();
+            jugadorEnRango = true;
+            StartCoroutine(ControlarEscucha());
         }
     }
 
-    private bool CheckVision()
+    private void OnTriggerExit(Collider other)
     {
-        Vector3 directionToPlayer = (player.position - transform.position).normalized;
-        float angle = Vector3.Angle(transform.forward, directionToPlayer);
-
-        if (angle < fieldOfView / 2 && Vector3.Distance(transform.position, player.position) < RangoVision)
+        if (other.CompareTag("Player"))
         {
-            if (!Physics.Linecast(transform.position, player.position))
+            jugadorEnRango = false;
+            jugador = null;
+        }
+    }
+
+    private IEnumerator ControlarEscucha()
+    {
+        while (jugadorEnRango)
+        {
+            float ruidoGenerado = CalcularRuido(jugador);
+
+            if (ruidoGenerado > 0)
             {
-                return true; // Jugador visto
+                barraAlerta += ruidoGenerado * Time.deltaTime;
+                barraAlerta = Mathf.Clamp(barraAlerta, 0, tiempoParaDetectar);
             }
+            else
+            {
+                barraAlerta -= velocidadPerdida * Time.deltaTime;
+                barraAlerta = Mathf.Clamp(barraAlerta, 0, tiempoParaDetectar);
+            }
+
+            ActualizarBarra();
+
+            if (barraAlerta >= tiempoParaDetectar)
+            {
+                Debug.Log("¡Jugador detectado!");
+                yield break;
+            }
+
+            yield return null;
         }
-        return false;
+
+        while (barraAlerta > 0)
+        {
+            barraAlerta -= velocidadPerdida * Time.deltaTime;
+            barraAlerta = Mathf.Clamp(barraAlerta, 0, tiempoParaDetectar);
+            ActualizarBarra();
+            yield return null;
+        }
     }
 
-    protected bool CheckHearing()
+    private float CalcularRuido(PlayerController jugador)
     {
-        return Vector3.Distance(transform.position, player.position) < RangoOido;
+        if (jugador == null) return 0;
+
+        if (jugador.tipoMove == 3) return 2f; // Corriendo (mucho ruido)
+        if (jugador.tipoMove == 1 || jugador.tipoMove == 2) return 0.2f; // Agachado (poco ruido)
+        if (jugador.tipoMove == 0) return 1f; // Caminando (ruido moderado)
+
+        return 0f;
     }
 
-    protected void OnPlayerDetected()
+    private void ActualizarBarra()
     {
-        Debug.Log("He pillado detectado al jugador.");        
+        if (barraDeAvistamiento == null) return;
+
+        float porcentaje = barraAlerta / tiempoParaDetectar;
+        barraDeAvistamiento.fillAmount = porcentaje;
+
+        // Cambiar color de verde -> amarillo -> rojo
+        Color color = Color.Lerp(Color.green, Color.red, porcentaje);
+        barraDeAvistamiento.color = color;
     }
-    public void OnPlayerHeard()
+    public float GetProgresoAlerta()
     {
-        Debug.Log($"{name} ha oído al jugador.");
+        return barraAlerta / tiempoParaDetectar; // Devuelve el progreso en porcentaje (0 a 1)
     }
 }
