@@ -57,21 +57,21 @@ public class LevelManager : MonoBehaviour
 
     void RevisarDeteccion()
     {
-        float mayorDeteccion = 0f;
+        float maxDeteccion = 0f;
 
         foreach (Transform enemigo in enemigos)
         {
             float deteccion = CalcularDeteccion(enemigo);
 
-            if (deteccion > mayorDeteccion)
+            if (deteccion > maxDeteccion)
             {
-                mayorDeteccion = deteccion;
+                maxDeteccion = deteccion;
             }
         }
 
-        if (mayorDeteccion > 0)
+        if (maxDeteccion > 0)
         {
-            nivelAlerta += mayorDeteccion * velocidadAlerta * Time.deltaTime;
+            nivelAlerta += maxDeteccion * velocidadAlerta * Time.deltaTime;
         }
 
         else
@@ -87,6 +87,38 @@ public class LevelManager : MonoBehaviour
         {
             Debug.Log ("¡Pillado!");
         }
+    }
+
+    float CalcularDeteccion (Transform enemigo)
+    {
+        float distancia = Vector3.Distance(enemigo.position, player.position);
+        float nivelDeteccion = 0f;
+
+        if (distancia < rangoVision)
+        {
+            RaycastHit hit;
+            Vector3 direccion = (player.position - enemigo.position).normalized;
+
+            if (Physics.Raycast (enemigo.position, direccion, out hit, rangoVision, ~capaObstaculos))
+            {
+                if (hit.collider.CompareTag("Player"))
+                {
+                    nivelDeteccion = 1 - (distancia / rangoVision);
+                }
+            }
+        }
+
+        if (distancia < rangoEscucha && JugadorHaceRuido())
+        {
+            nivelDeteccion = Mathf.Max(nivelDeteccion, 0.5f);
+        }
+
+        return nivelDeteccion;
+    }
+
+    bool JugadorHaceRuido()
+    {
+        return true;
     }
 
     private void OnTriggerEnter(Collider other)
