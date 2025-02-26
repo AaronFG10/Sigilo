@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class ItemController : MonoBehaviour
+public class ItemControler : MonoBehaviour
 {
     public InventoryObject item;
 }

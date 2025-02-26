@@ -18,4 +18,15 @@ public class InventoryItemControler : MonoBehaviour
     {
         item = newItem;
     }
+
+    public void UseItem()
+    {
+        switch (item.itemType)
+        {
+            case InventoryObject.ItemType.Llave:
+                break;
+        }
+
+        RemoveItem();
+    }
 }
