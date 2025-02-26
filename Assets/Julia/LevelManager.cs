@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
 {
@@ -10,6 +11,19 @@ public class LevelManager : MonoBehaviour
     public TextMeshProUGUI itemsText;
 
     private bool canInteract = false;
+
+    [Header("UI de detección enemigos")]
+    public List<Transform> enemigos;
+    public Transform player;
+    public Image alertaUI;
+
+    public float rangoVision = 10f;
+    public float rangoEscucha = 5f;
+    public LayerMask capaObstaculos;
+    public float velocidadAlerta = 20f;
+
+    private float nivelAlerta = 0f;
+    public float maxAlerta = 100f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -36,6 +50,42 @@ public class LevelManager : MonoBehaviour
                     Destroy(gameObject);
                 }
             }
+        }
+
+        RevisarDeteccion();
+    }
+
+    void RevisarDeteccion()
+    {
+        float mayorDeteccion = 0f;
+
+        foreach (Transform enemigo in enemigos)
+        {
+            float deteccion = CalcularDeteccion(enemigo);
+
+            if (deteccion > mayorDeteccion)
+            {
+                mayorDeteccion = deteccion;
+            }
+        }
+
+        if (mayorDeteccion > 0)
+        {
+            nivelAlerta += mayorDeteccion * velocidadAlerta * Time.deltaTime;
+        }
+
+        else
+        {
+            nivelAlerta -= velocidadAlerta * Time.deltaTime;
+        }
+
+        nivelAlerta = Mathf.Clamp(nivelAlerta, 0, maxAlerta);
+
+        alertaUI.fillAmount = nivelAlerta / maxAlerta;
+
+        if (nivelAlerta >= maxAlerta)
+        {
+            Debug.Log ("¡Pillado!");
         }
     }
 
