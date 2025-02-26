@@ -197,7 +197,15 @@ public class PlayerController : MonoBehaviour
         {
             if(GameManager.instance.gameData.Key1 == true)
             {
-                other.transform.position = new Vector3(other.transform.position.x, other.transform.position.y+3, other.transform.position.z);
+                if(other.GetComponent<Animator>()!=null)
+                {
+                    other.GetComponent<Animator>().SetTrigger("puerta");
+                }
+                else
+                {
+                   Destroy(other.gameObject);
+                }
+                
             }
         }
         if (GameManager.instance.gameData.Key1 == true && interactuable==true)

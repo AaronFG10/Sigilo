@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI; // Necesario para trabajar con UI
 using System.Collections;
+using UnityEngine.InputSystem;
+
 public class EnemyBase : MonoBehaviour
 {
     [SerializeField] private SphereCollider areaDeEscucha;
@@ -11,10 +13,15 @@ public class EnemyBase : MonoBehaviour
     private PlayerController jugador;
 
     [SerializeField] private Image barraDeAvistamiento; // Referencia a la barra de UI
-
+    private void Start()
+    {
+        {
+            jugador = GetComponent<PlayerController>();
+        }
+    }
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.gameObject.tag == "Player")
         {
             jugador = other.GetComponent<PlayerController>();
             jugadorEnRango = true;
@@ -24,7 +31,7 @@ public class EnemyBase : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.gameObject.tag == "Player")
         {
             jugadorEnRango = false;
             jugador = null;
@@ -72,9 +79,9 @@ public class EnemyBase : MonoBehaviour
     {
         if (jugador == null) return 0;
 
-        if (jugador.tipoMove == 3) return 2f; // Corriendo (mucho ruido)
+        if (jugador.tipoMove == 3) return 2f;                            // Corriendo (mucho ruido)
         if (jugador.tipoMove == 1 || jugador.tipoMove == 2) return 0.2f; // Agachado (poco ruido)
-        if (jugador.tipoMove == 0) return 1f; // Caminando (ruido moderado)
+        if (jugador.tipoMove == 0) return 1f;                            // Caminando (ruido moderado)
 
         return 0f;
     }
