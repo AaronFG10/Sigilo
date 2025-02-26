@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Net.NetworkInformation;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,6 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     private PlayerInput playerInput;
     private Rigidbody rb;
+    private PlayerController playerController;
     public Animator animator;
     [SerializeField] private float speed;
     public int tipoMove;
@@ -17,6 +19,7 @@ public class PlayerController : MonoBehaviour
 
 
     [SerializeField] private Transform playerGiro;
+    [SerializeField]private CameraController cam;
 
  
 
@@ -24,7 +27,9 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         playerInput = GetComponent<PlayerInput>();
+        playerController = GetComponent<PlayerController>();
         rb = GetComponent<Rigidbody>();
+        cam= GameObject.Find("Main Camera").GetComponent<CameraController>();
        
     }
     public void Correr(InputAction.CallbackContext context)
@@ -176,6 +181,15 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.tag == "trampa")
         {
             trap = true;
+        }
+        if(other.gameObject.tag=="win")
+        {
+            playerGiro.rotation = Quaternion.LookRotation(new Vector3(-90 ,0 ,0) );
+            Debug.Log("canvas victoria");
+            animator.SetTrigger("win");
+            cam.Victory();
+            playerController.enabled = false;
+
         }
     }
 
