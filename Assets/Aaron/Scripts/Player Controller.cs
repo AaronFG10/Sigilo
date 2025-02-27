@@ -171,7 +171,7 @@ public class PlayerController : MonoBehaviour
         if(trap==true && context.started == true)
         {
             
-            Debug.Log("NDSN");
+           
             trap = false;
             animator.SetTrigger("desac");
             Vector3 transformPlayaer=transform.position;
@@ -208,6 +208,10 @@ public class PlayerController : MonoBehaviour
             cam.Victory();
             playerController.enabled = false;
 
+        }
+        if(other.gameObject.tag=="cepo")
+        {
+            StartCoroutine(Cepo());
         }
     }
 
@@ -266,6 +270,28 @@ public class PlayerController : MonoBehaviour
         trampa = null;
 
 
+    }
+
+    IEnumerator Cepo()
+    {
+        
+        Debug.Log("njs");
+        float t = 0;
+        
+
+        while(t<5)
+        {
+            if (Input.GetButtonDown("Jump"))
+            {
+                Debug.Log("gsw");
+                t += 0.5f;
+            }
+            Debug.Log(t);
+            t -=Time.deltaTime;
+            rb.linearVelocity=Vector3.zero ;
+            yield return null;
+        }
+        yield return null;
     }
 
 }
