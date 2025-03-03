@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Net.NetworkInformation;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -20,6 +21,8 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private Transform playerGiro;
     [SerializeField]private CameraController cam;
+    private CapsuleCollider capsule;
+    [SerializeField] private GameObject trampa;
 
  
 
@@ -29,6 +32,7 @@ public class PlayerController : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         playerController = GetComponent<PlayerController>();
         rb = GetComponent<Rigidbody>();
+        capsule = GetComponent<CapsuleCollider>();
         cam= GameObject.Find("Main Camera").GetComponent<CameraController>();
        
     }
@@ -142,12 +146,17 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("walk", false);
             animator.SetBool("agacharse",true);
             speed = 0.5f;
+            capsule.center =new Vector3(0.00019f, 1, 0.03492917f);
+            capsule.height = 1; 
         }
         else if(estaAgachado==true)
         {
             tipoMove = 0;
             estaAgachado = false;
             animator.SetBool("agacharse", false);
+            capsule.center = new Vector3(0.00019f, 1.439626f, 0.03492917f);
+            capsule.height = 1.792812f;
+
         }
     }
 
@@ -162,10 +171,16 @@ public class PlayerController : MonoBehaviour
         if(trap==true && context.started == true)
         {
             
-            Debug.Log("NDSN");
+           
             trap = false;
             animator.SetTrigger("desac");
-           
+            Vector3 transformPlayaer=transform.position;
+            transformPlayaer=new Vector3(trampa.transform.position.x,transform.position.y,trampa.transform.position.z);
+            transform.position = transformPlayaer;
+            Vector3 direccion = trampa.transform.position-transform.position;
+            direccion.y = transform.rotation.y;
+            Quaternion rotacion = Quaternion.LookRotation(direccion);
+            transform.rotation = rotacion;
             StartCoroutine(DesacTrap());
         }
     }
@@ -180,7 +195,10 @@ public class PlayerController : MonoBehaviour
         }
         if (other.gameObject.tag == "trampa")
         {
+            Debug.Log(other);
             trap = true;
+            trampa = other.gameObject ;
+            
         }
         if(other.gameObject.tag=="win")
         {
@@ -190,6 +208,10 @@ public class PlayerController : MonoBehaviour
             cam.Victory();
             playerController.enabled = false;
 
+        }
+        if(other.gameObject.tag=="cepo")
+        {
+            StartCoroutine(Cepo());
         }
     }
 
@@ -202,6 +224,8 @@ public class PlayerController : MonoBehaviour
         if(other.gameObject.tag=="trampa")
         {
             trap=false;
+            trampa=null;
+            
         }
     }
 
@@ -236,14 +260,38 @@ public class PlayerController : MonoBehaviour
         while (t < 3)
         {
             t+=Time.deltaTime;
-            Debug.Log(t);
+            
             rb.linearVelocity=Vector3.zero;
             yield return null;
         }
-        
+        trampa.transform.GetChild(0).gameObject.SetActive(false);
+     
         yield return null;
-        Debug.Log("fs");
+        trampa = null;
+
+
+    }
+
+    IEnumerator Cepo()
+    {
         
+        Debug.Log("njs");
+        float t = 0;
+        
+
+        while(t<5)
+        {
+            if (Input.GetButtonDown("Jump"))
+            {
+                Debug.Log("gsw");
+                t += 0.5f;
+            }
+            Debug.Log(t);
+            t -=Time.deltaTime;
+            rb.linearVelocity=Vector3.zero ;
+            yield return null;
+        }
+        yield return null;
     }
 
 }
