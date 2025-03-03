@@ -141,7 +141,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3b4082df04f1c2a4882ab2f8df7ee325, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.639793
+      value: 7.81
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3b4082df04f1c2a4882ab2f8df7ee325, type: 3}
       propertyPath: m_LocalPosition.y
@@ -149,7 +149,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3b4082df04f1c2a4882ab2f8df7ee325, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 13.6
+      value: 17.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 3b4082df04f1c2a4882ab2f8df7ee325, type: 3}
       propertyPath: m_LocalRotation.w
@@ -879,6 +879,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: e11f4f4d-8226-4cc4-9dce-1eadd2d28259
     m_ActionName: 'Player/Interactuar[/Keyboard/q]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 993211054}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: CepoLiberarse
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 9e2b3b2f-15c8-43dc-be60-4de4f9addbff
+    m_ActionName: 'Player/Space[/Keyboard/space]'
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -1072,7 +1088,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 33398c1da1c950e418147f243c52554f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1152,7 +1168,6 @@ GameObject:
   - component: {fileID: 1489939531}
   - component: {fileID: 1489939530}
   - component: {fileID: 1489939529}
-  - component: {fileID: 1489939532}
   m_Layer: 0
   m_Name: Laser
   m_TagString: trampa
@@ -1219,19 +1234,6 @@ Transform:
   - {fileID: 1187683315}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1489939532
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1489939528}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44a587dea6f6a694ab89bb16ad9f23b1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SphereC: {fileID: 0}
 --- !u!1001 &1629869925
 PrefabInstance:
   m_ObjectHideFlags: 0
