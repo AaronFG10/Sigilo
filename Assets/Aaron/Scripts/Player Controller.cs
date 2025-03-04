@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]private CameraController cam;
     private CapsuleCollider capsule;
     [SerializeField] private GameObject trampa;
+    private int cepoPulsado;
 
  
 
@@ -212,6 +213,7 @@ public class PlayerController : MonoBehaviour
         if(other.gameObject.tag=="cepo")
         {
             StartCoroutine(Cepo());
+            cepoPulsado = 0;
         }
     }
 
@@ -271,7 +273,13 @@ public class PlayerController : MonoBehaviour
 
 
     }
-
+    public void CepoLiberarse(InputAction.CallbackContext context)
+    {
+        if(context.performed==true)
+        {
+            cepoPulsado += 1;
+        }
+    }
     IEnumerator Cepo()
     {
         
@@ -281,11 +289,10 @@ public class PlayerController : MonoBehaviour
 
         while(t<5)
         {
-            if (Input.GetButtonDown("Jump"))
-            {
-                Debug.Log("gsw");
-                t += 0.5f;
-            }
+            
+            Debug.Log("gsw");
+            t += 0.5f*cepoPulsado;
+            cepoPulsado = 0;
             Debug.Log(t);
             t -=Time.deltaTime;
             rb.linearVelocity=Vector3.zero ;
