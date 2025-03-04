@@ -192,34 +192,44 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        switch (other.gameObject.tag)
+        {
+            case "objeto":
+                interactuable = true;
+                break;
+            case "trampa":
+                trap = true;
+                trampa = other.gameObject;
+                break;
+            case "win":
+                playerGiro.rotation = Quaternion.LookRotation(new Vector3(-90, 0, 0));
+                animator.SetTrigger("win");
+                cam.Victory();
+                playerController.enabled = false;
+                break;
+            case "cepo":
+                StartCoroutine(Cepo());
+                cepo = other.gameObject;
+                cepo.GetComponent<Animator>().SetTrigger("cerrar");
+                cepoPulsado = 0;
+                animator.SetTrigger("agacharseCepo");
+                Invoke("DesacTagCepo", 1);
+                Vector3 transformplayer = transform.position;
+                transformplayer = new Vector3(cepo.transform.position.x, transform.position.y, cepo.transform.position.z);
+                transform.position = transformplayer;
+                break;
+            case "pollo":
+                animator.SetTrigger("backflip");
+                Destroy(other.gameObject);
+                break;
+            case "sandia":
+                animator.SetTrigger("backflip");
+                Destroy(other.gameObject);
+                break;
+        }
         
-       if(other.gameObject.tag=="objeto")
-        {
-            interactuable = true;
-        }
-        if (other.gameObject.tag == "trampa")
-        {
-            trap = true;
-            trampa = other.gameObject ;
-            
-        }
-        if(other.gameObject.tag=="win")
-        {
-            playerGiro.rotation = Quaternion.LookRotation(new Vector3(-90 ,0 ,0) );
-            animator.SetTrigger("win");
-            cam.Victory();
-            playerController.enabled = false;
-
-        }
-        if(other.gameObject.tag=="cepo")
-        {
-            StartCoroutine(Cepo());
-            cepo=other.gameObject ;
-            cepo.GetComponent<Animator>().SetTrigger("cerrar");
-            cepoPulsado = 0;
-            animator.SetTrigger("agacharseCepo");
-            Invoke("DesacTagCepo", 1);
-        }
+  
+        
     }
 
     private void OnTriggerExit(Collider other)
