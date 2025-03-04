@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,8 +9,8 @@ public class InventoryManager : MonoBehaviour
     public static InventoryManager instance;
     public List<InventoryObject> items = new List<InventoryObject>();
 
-    public Transform itemContent;
-    public GameObject inventoryItem;
+    public Transform ItemContent;
+    public GameObject InventoryItem;
 
     public Toggle enableRemove;
 
@@ -32,15 +33,15 @@ public class InventoryManager : MonoBehaviour
 
     public void ListItems()
     {
-        foreach (Transform item in itemContent)
+        foreach (Transform item in ItemContent)
         {
             Destroy (item.gameObject);
         }
 
         foreach (var item in items)
         {
-            GameObject obj = Instantiate(inventoryItem, itemContent);
-            var itemName = obj.transform.Find("ItemName").GetComponent<Text>();
+            GameObject obj = Instantiate(InventoryItem, ItemContent);
+            var itemName = obj.transform.Find("ItemName").GetComponent<TextMeshProUGUI>();
             var itemIcon = obj.transform.Find("ItemIcon").GetComponent<Image>();
             var removeButton = obj.transform.Find("RemoveButton").GetComponent<Button>();
 
@@ -60,7 +61,7 @@ public class InventoryManager : MonoBehaviour
     {
         if (enableRemove.isOn)
         {
-            foreach (Transform item in itemContent)
+            foreach (Transform item in ItemContent)
             {
                 item.Find("RemoveButton").gameObject.SetActive(true);
             }
@@ -68,7 +69,7 @@ public class InventoryManager : MonoBehaviour
 
         else
         {
-            foreach (Transform item in itemContent)
+            foreach (Transform item in ItemContent)
             {
                 item.Find("RemoveButton").gameObject.SetActive(true);
             }
@@ -77,7 +78,7 @@ public class InventoryManager : MonoBehaviour
 
     public void SetInventoryItems()
     {
-        inventoryItems = itemContent.GetComponentsInChildren<InventoryItemControler>();
+        inventoryItems = ItemContent.GetComponentsInChildren<InventoryItemControler>();
 
         for (int i = 0; i < items.Count; i++)
         {

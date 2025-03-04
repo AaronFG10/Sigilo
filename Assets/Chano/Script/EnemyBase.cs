@@ -11,8 +11,8 @@ public class EnemyBase : MonoBehaviour
     private float barraAlerta = 0f;
     private bool jugadorEnRango = false;
     private PlayerController jugador;
-
     [SerializeField] private Image barraDeAvistamiento; // Referencia a la barra de UI
+
     private void Start()
     {
         {
