@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour
     private CapsuleCollider capsule;
     [SerializeField] private GameObject trampa;
     private int cepoPulsado;
+    [SerializeField] private GameObject cepo;
+    [SerializeField] private Collider punchColliider;
 
  
 
@@ -35,7 +37,9 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         capsule = GetComponent<CapsuleCollider>();
         cam= GameObject.Find("Main Camera").GetComponent<CameraController>();
-       
+        
+
+
     }
     public void Correr(InputAction.CallbackContext context)
     {
@@ -106,19 +110,12 @@ public class PlayerController : MonoBehaviour
             animator.SetBool("camAgachado", false);
         }
 
-     
-        /*if (InputValue==Vector2.zero)
-        {
-            tipoMove = 4;
-        }*/
-
     }
 
     public void Move(InputAction.CallbackContext context)
     {
         
         if (estaAgachado== false && estCorriendo == false)
-
         {
             animator.SetBool("walk", true);
             speed = 1;
@@ -137,6 +134,13 @@ public class PlayerController : MonoBehaviour
     public void Punch(InputAction.CallbackContext context)
     {
         animator.SetTrigger("punch");
+        punchColliider.enabled = true;
+        Invoke("PuñoColliderCancel", 1);
+    }
+
+    public void PuñoColliderCancel()
+    {
+       punchColliider.enabled = false;
     }
     public void Agacharse(InputAction.CallbackContext context)
     {
@@ -188,33 +192,44 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        switch (other.gameObject.tag)
+        {
+            case "objeto":
+                interactuable = true;
+                break;
+            case "trampa":
+                trap = true;
+                trampa = other.gameObject;
+                break;
+            case "win":
+                playerGiro.rotation = Quaternion.LookRotation(new Vector3(-90, 0, 0));
+                animator.SetTrigger("win");
+                cam.Victory();
+                playerController.enabled = false;
+                break;
+            case "cepo":
+                StartCoroutine(Cepo());
+                cepo = other.gameObject;
+                cepo.GetComponent<Animator>().SetTrigger("cerrar");
+                cepoPulsado = 0;
+                animator.SetTrigger("agacharseCepo");
+                Invoke("DesacTagCepo", 1);
+                Vector3 transformplayer = transform.position;
+                transformplayer = new Vector3(cepo.transform.position.x, transform.position.y, cepo.transform.position.z);
+                transform.position = transformplayer;
+                break;
+            case "pollo":
+                animator.SetTrigger("backflip");
+                Destroy(other.gameObject);
+                break;
+            case "sandia":
+                animator.SetTrigger("backflip");
+                Destroy(other.gameObject);
+                break;
+        }
         
-       if(other.gameObject.tag=="objeto")
-        {
-            Debug.Log("bds");
-            interactuable = true;
-        }
-        if (other.gameObject.tag == "trampa")
-        {
-            Debug.Log(other);
-            trap = true;
-            trampa = other.gameObject ;
-            
-        }
-        if(other.gameObject.tag=="win")
-        {
-            playerGiro.rotation = Quaternion.LookRotation(new Vector3(-90 ,0 ,0) );
-            Debug.Log("canvas victoria");
-            animator.SetTrigger("win");
-            cam.Victory();
-            playerController.enabled = false;
-
-        }
-        if(other.gameObject.tag=="cepo")
-        {
-            StartCoroutine(Cepo());
-            cepoPulsado = 0;
-        }
+  
+        
     }
 
     private void OnTriggerExit(Collider other)
@@ -282,23 +297,32 @@ public class PlayerController : MonoBehaviour
     }
     IEnumerator Cepo()
     {
-        
-        Debug.Log("njs");
         float t = 0;
-        
-
         while(t<5)
         {
-            
-            Debug.Log("gsw");
             t += 0.5f*cepoPulsado;
             cepoPulsado = 0;
             Debug.Log(t);
-            t -=Time.deltaTime;
+            if(t>-2)
+            {
+                t -= Time.deltaTime;
+            }
             rb.linearVelocity=Vector3.zero ;
+            
             yield return null;
         }
+        
+        cepo.GetComponent<Collider>().enabled=false;
+        cepo.GetComponent<Animator>().SetTrigger("abrir");
+
+        cepo = null;
+        animator.SetTrigger("levantarseCepo");
         yield return null;
+    }
+
+    void DesacTagCepo()
+    {
+        cepo.tag = "Untagged";
     }
 
 }
