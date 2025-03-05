@@ -7,6 +7,7 @@ public class EnemyBase : MonoBehaviour
 {
     [SerializeField] private SphereCollider areaDeEscucha;
     [SerializeField] private float tiempoParaDetectar = 3f;
+
     [SerializeField] private float velocidadPerdida = 1f;
     private float barraAlerta = 0f;
     private bool jugadorEnRango = false;
