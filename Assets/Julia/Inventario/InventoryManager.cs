@@ -41,12 +41,12 @@ public class InventoryManager : MonoBehaviour
         foreach (var item in items)
         {
             GameObject obj = Instantiate(InventoryItem, ItemContent);
-            var itemName = obj.transform.Find("ItemName").GetComponent<TextMeshProUGUI>();
             var itemIcon = obj.transform.Find("ItemIcon").GetComponent<Image>();
+            var itemName = obj.transform.Find("ItemName").GetComponent<TextMeshProUGUI>();
             var removeButton = obj.transform.Find("RemoveButton").GetComponent<Button>();
 
-            itemName.text = item.itemName;
             itemIcon.sprite = item.icon;
+            itemName.text = item.itemName;
 
             if (enableRemove.isOn)
             {
