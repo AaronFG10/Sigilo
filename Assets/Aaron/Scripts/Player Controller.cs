@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     private int cepoPulsado;
     [SerializeField] private GameObject cepo;
     [SerializeField] private Collider punchColliider;
+    [SerializeField] private AudioClip sfxKey, sfxDoor, sfxDesactivarLaser, sfxCepo, sfxPisadas, sfxPuño;
 
  
 
