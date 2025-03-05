@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 1
   itemName: Llave
-  value: 0
-  icon: {fileID: 0}
+  value: 10
+  icon: {fileID: 21300000, guid: 36ebfd79637f84b4996feff823d57dab, type: 3}
+  itemType: 0
