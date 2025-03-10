@@ -13,6 +13,11 @@ public class EnemyBase : MonoBehaviour
     private bool jugadorEnRango = false;
     private PlayerController jugador;
     [SerializeField] private Image barraDeAvistamiento; // Referencia a la barra de UI
+    public Transform visionIzquierdo;
+    public Transform visionDerecho;
+    public Transform visionMedio;
+    [SerializeField] private float distanciaVision = 10f;
+
 
     private void Start()
     {
@@ -20,6 +25,11 @@ public class EnemyBase : MonoBehaviour
             jugador = GetComponent<PlayerController>();
         }
     }
+    private void Update()
+    {
+        DetectarJugadorConRaycast();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
@@ -102,171 +112,27 @@ public class EnemyBase : MonoBehaviour
     {
         return barraAlerta / tiempoParaDetectar; // Devuelve el progreso en porcentaje (0 a 1)
     }
+    private void DetectarJugadorConRaycast()
+    {
+        Transform[] puntosDeVision = { visionIzquierdo, visionDerecho, visionMedio };
+
+        foreach (Transform punto in puntosDeVision)
+        {
+            if (punto == null) continue; // Evita errores si no están asignados
+
+            RaycastHit hit;
+            if (Physics.Raycast(punto.position, punto.forward, out hit, distanciaVision))
+            {
+                if (hit.collider.CompareTag("Player"))
+                {
+                    Debug.Log("Jugador detectado por " + punto.name);
+                }
+            }
+            Debug.DrawRay(punto.position, punto.forward * distanciaVision, Color.red);
+        }
+    }
 
 
     //RayCast
 
-    /*
-    
-    void CheckSteerAngle()
-    {
-        Vector3 direction = circuit.nodes[currentNode].position - transform.position;
-        float distance = direction.magnitude;
-        if(distance < distToChange)
-        {
-            currentNode += 1;
-            if (currentNode == circuit.nodes.Count)
-            {
-                currentNode = 0;
-            }
-        }
-
-        //en mi caso es vector3 back en Global
-        Quaternion rot = Quaternion.FromToRotation(transform.forward * -1, direction.normalized);
-
-        anguloDeGiro = rot.eulerAngles.y;
-    }
-
-
-    void CheckSensors()
-    {
-        RaycastHit hit;
-        maxSensorLenght = 0;
-        isDodging = false;
-
-        for (int i = 0; i < sensors.Length; i++)
-        {
-            if (i > 1 && i < 4)
-            {
-                sensorsLenght *= 0.5f;
-            }
-            else if (i == 4)
-            {
-                sensorsLenght = maxSensorLenght * 0.5f;
-            }
-            if (Physics.Raycast(sensors[i].position, sensors[i].forward, out hit, sensorsLenght))
-            {
-                switch (i)
-                {
-                    case 0://frontal izquierdo
-                        isDodging = true;
-                        dodgeMultiplier += 1;
-                        break;
-
-                    case 1://Frontal derecho
-                        isDodging = true;
-                        dodgeMultiplier += -1;
-                        break;
-
-                    case 2: //Lateral izquierdo
-                        if (isDodging == false)
-                        {
-                            isDodging = true;
-                            dodgeMultiplier = 0.5f;
-                        }
-
-                        break;
-
-                    case 3: //Lateral derecho
-                        if (isDodging == false)
-                        {
-                            isDodging = true;
-                            dodgeMultiplier = -0.5f;
-                        }
-                        break;
-
-                    case 4://Frontal centro
-                        if (dodgeMultiplier == 0)
-                        {
-                            if (hit.normal.x > 0)
-                            {
-                                dodgeMultiplier = 1;
-                            }
-                            else
-                            {
-                                dodgeMultiplier = -1;
-                            }
-                        }
-                        break;
-                }
-            }
-            Vector3 finalLinePos = sensors[i].position + (sensors[i].forward * sensorsLenght);
-            Debug.DrawLine(sensors[i].position, finalLinePos, Color.red);
-        }
-
-        if (isDodging == true)
-        {
-            anguloDeGiro = maxAnguloDeGiro * dodgeMultiplier;
-        }
-    }
-    
-     
-     
-     
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.tag == "BrakeZone")
-        {
-            wheelBL.brakeTorque = 0;
-            wheelBR.brakeTorque = 0;
-            wheelFL.brakeTorque = 0;
-            wheelFR.brakeTorque = 0;
-            wheelBL.motorTorque = fuerzaMotor;
-            wheelBR.motorTorque = fuerzaMotor;
-            lucesFreno.DisableKeyword("_EMISSION");
-        }
-        else if (other.gameObject.tag == "CheckPoint")
-        {
-            if (indexCheckPoint == lm.checkpoints.Count - 1)
-            {
-                if (other.transform == lm.checkpoints[0])//Comprobamos si ha cruzado la meta
-                {
-                    if (vueltas > 0)
-                    {
-                        TimeSpan tiempoCarrera = new TimeSpan();
-                        for (int i = 0; i < lapTimes.Count; i++)
-                        {
-                            tiempoCarrera += lapTimes[i];
-                        }
-
-                        TimeSpan tiempoVuelta = DateTime.Now - (startRaceTime + tiempoCarrera);
-                        lapTimes.Add(tiempoVuelta);
-                    }
-                    indexCheckPoint = 0;
-                    vueltas += 1;
-                    
-                    if (lm.totalVueltas < vueltas)
-                    {
-                        Debug.Log("HE TERMINADO!!!");
-                        lm.ShowFinishRace();
-                    }
-                }
-            }
-            else
-            {
-                if (other.transform == lm.checkpoints[indexCheckPoint + 1])
-                {
-                    indexCheckPoint += 1;
-                }
-            }
-            if (other.gameObject.tag == "BrakeZone")
-            {
-                wheelBL.brakeTorque = 0;
-                wheelBR.brakeTorque = 0;
-                wheelFL.brakeTorque = 0;
-                wheelFR.brakeTorque = 0;
-                wheelBL.motorTorque = fuerzaMotor;
-                wheelBR.motorTorque = fuerzaMotor;
-                lucesFreno.DisableKeyword("_EMISSION");
-            }
-        }
-    }
-    public void AsignPath(PathCircuit camino)
-    {
-        circuit = camino;
-    }
-     
-     
-     
-     */
 }
