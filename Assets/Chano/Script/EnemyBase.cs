@@ -17,6 +17,7 @@ public class EnemyBase : MonoBehaviour
     public Transform visionDerecho;
     public Transform visionMedio;
     [SerializeField] private float distanciaVision = 10f;
+    [SerializeField] private GameObject panelArresto;
 
 
     private void Start()
@@ -70,7 +71,9 @@ public class EnemyBase : MonoBehaviour
 
             if (barraAlerta >= tiempoParaDetectar)
             {
+
                 Debug.Log("¡Jugador detectado!");
+                MostrarPantallaDeArresto();
                 yield break;
             }
 
@@ -104,13 +107,13 @@ public class EnemyBase : MonoBehaviour
         float porcentaje = barraAlerta / tiempoParaDetectar;
         barraDeAvistamiento.fillAmount = porcentaje;
 
-        // Cambiar color de verde -> amarillo -> rojo
+        // Cambiar color de verde > amarillo > rojo
         Color color = Color.Lerp(Color.green, Color.red, porcentaje);
         barraDeAvistamiento.color = color;
     }
     public float GetProgresoAlerta()
     {
-        return barraAlerta / tiempoParaDetectar; // Devuelve el progreso en porcentaje (0 a 1)
+        return barraAlerta / tiempoParaDetectar;
     }
     private void DetectarJugadorConRaycast()
     {
@@ -118,7 +121,7 @@ public class EnemyBase : MonoBehaviour
 
         foreach (Transform punto in puntosDeVision)
         {
-            if (punto == null) continue; // Evita errores si no están asignados
+            if (punto == null) continue; 
 
             RaycastHit hit;
             if (Physics.Raycast(punto.position, punto.forward, out hit, distanciaVision))
@@ -126,13 +129,23 @@ public class EnemyBase : MonoBehaviour
                 if (hit.collider.CompareTag("Player"))
                 {
                     Debug.Log("Jugador detectado por " + punto.name);
+                    MostrarPantallaDeArresto();
                 }
             }
             Debug.DrawRay(punto.position, punto.forward * distanciaVision, Color.red);
         }
     }
-
-
-    //RayCast
+    private void MostrarPantallaDeArresto()//Para activar la pantalla de arresto
+    {
+        if (panelArresto != null)
+        {
+            panelArresto.SetActive(true);
+            Time.timeScale = 0; 
+        }
+        else
+        {
+            Debug.LogError("El panel de arresto no está asignado en el Inspector.");
+        }
+    }
 
 }
