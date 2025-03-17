@@ -29,4 +29,9 @@ public class InventoryManager : MonoBehaviour
         }
 
     }
+
+    public void AddItem(string itemName, int quantity, Sprite itemSprite)
+    {
+
+    }
 }
