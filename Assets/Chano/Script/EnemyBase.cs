@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.UI; // Necesario para trabajar con UI
+using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.InputSystem;
 
@@ -18,6 +18,7 @@ public class EnemyBase : MonoBehaviour
     public Transform visionMedio;
     [SerializeField] private float distanciaVision = 10f;
     [SerializeField] private GameObject panelArresto;
+    [SerializeField] private GameObject ragdollPrefab;
 
 
     private void Start()
@@ -39,6 +40,11 @@ public class EnemyBase : MonoBehaviour
             jugadorEnRango = true;
             StartCoroutine(ControlarEscucha());
         }
+      /*  else if (other.gameObject.CompareTag("Golpe"))
+        {
+            ReemplazarPorRagdoll();
+        }*/
+
     }
 
     private void OnTriggerExit(Collider other)
@@ -50,6 +56,20 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
+    private void ReemplazarPorRagdoll()
+    {
+        if (ragdollPrefab != null)
+        {
+            GameObject ragdoll = Instantiate(ragdollPrefab, transform.position, transform.rotation);
+            ragdoll.transform.localScale = transform.localScale;
+            Destroy(gameObject);
+        }
+        else
+        {
+            Debug.LogError("No se ha asignado un prefab de ragdoll en el inspector.");
+        }
+
+    }
     private IEnumerator ControlarEscucha()
     {
         while (jugadorEnRango)

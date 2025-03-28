@@ -5,7 +5,7 @@ public class EnemyUI : MonoBehaviour
 {
     [SerializeField] private Image barraAlertaUI;
     [SerializeField] private EnemyBase enemigo;
-    private Camera camera;
+    private new Camera camera;
 
     private void Start()
     {
@@ -15,7 +15,7 @@ public class EnemyUI : MonoBehaviour
     {
         if (enemigo == null) return;
 
-        float progreso = enemigo.GetProgresoAlerta(); // Método para obtener el porcentaje de la barra
+        float progreso = enemigo.GetProgresoAlerta();
         barraAlertaUI.fillAmount = progreso;
 
         transform.rotation = Quaternion.LookRotation(camera.transform.position - transform.position);
