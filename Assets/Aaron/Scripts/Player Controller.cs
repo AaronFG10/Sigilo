@@ -26,6 +26,8 @@ public class PlayerController : MonoBehaviour
     private int cepoPulsado;
     [SerializeField] private GameObject cepo;
     [SerializeField] private Collider punchColliider;
+    public float HoleSize;
+    private Camera CameraMain;
     [Header("Sounds")]
     [SerializeField] private AudioClip sfxKey, sfxDoor, sfxDesactivarLaser, sfxCepo, sfxPisadas, sfxPuño;
 
@@ -39,8 +41,8 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         capsule = GetComponent<CapsuleCollider>();
         cam= GameObject.Find("Main Camera").GetComponent<CameraController>();
+        CameraMain = Camera.main;
         
-
 
     }
     public void Correr(InputAction.CallbackContext context)
@@ -110,6 +112,33 @@ public class PlayerController : MonoBehaviour
         {
             tipoMove = 4;
             animator.SetBool("camAgachado", false);
+        }
+
+        //shader agujero pared
+        Collider[] hitCollidesrs= Physics.OverlapSphere(rb.transform.position,1f);
+
+        foreach(var hitCollider in hitCollidesrs)
+        {
+            Debug.Log(hitCollider.name);
+
+           // hitCollider.enabled = false;
+            float x = 0f;
+            if (Vector3.Distance(hitCollider.transform.position, CameraMain.transform.position) < Vector3.Distance(rb.centerOfMass + rb.transform.position, CameraMain.transform.position))
+                {
+                x=HoleSize;
+                }
+            try
+            {
+                Material[] materials = hitCollider.transform.GetComponent<Renderer>().materials;
+                for(int i = 0; i < materials.Length; i++) 
+                {
+                    materials[i].SetFloat("_Step", x);
+                }
+            }
+            catch
+            {
+                //Debug.Log("fskgn");
+            }
         }
 
     }
