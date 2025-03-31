@@ -910,6 +910,12 @@ MonoBehaviour:
   trampa: {fileID: 0}
   cepo: {fileID: 0}
   punchColliider: {fileID: 178448727}
+  sfxKey: {fileID: 8300000, guid: 6e718e5aca34ce94a8ea5e8805f9f95c, type: 3}
+  sfxDoor: {fileID: 8300000, guid: 16c5d9e25bbe46b46b6fc0138d470589, type: 3}
+  sfxDesactivarLaser: {fileID: 0}
+  sfxCepo: {fileID: 8300000, guid: 56731dc9cdf7b55428c12325314b8ed1, type: 3}
+  sfxPisadas: {fileID: 0}
+  "sfxPu\xF1o": {fileID: 0}
 --- !u!114 &993211055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1477,6 +1483,51 @@ Transform:
   m_Children:
   - {fileID: 1139843554}
   - {fileID: 1187683315}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1563029873
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1563029875}
+  - component: {fileID: 1563029874}
+  m_Layer: 0
+  m_Name: AudioManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1563029874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1563029873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81ef0be892a2da24c8cf55a2b0c9ae84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musicSource: []
+--- !u!4 &1563029875
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1563029873}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.064542, y: -0.7455372, z: -6.2411084}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1629869925
@@ -2267,3 +2318,4 @@ SceneRoots:
   - {fileID: 1696483462}
   - {fileID: 1322787589}
   - {fileID: 1198115628}
+  - {fileID: 1563029875}

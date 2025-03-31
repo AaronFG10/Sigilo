@@ -12,6 +12,8 @@ TagManager:
   - punch
   - pollo
   - sandia
+  - Golpe
+  - Enemy
   layers:
   - Default
   - TransparentFX

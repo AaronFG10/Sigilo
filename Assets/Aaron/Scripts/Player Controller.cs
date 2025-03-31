@@ -26,6 +26,8 @@ public class PlayerController : MonoBehaviour
     private int cepoPulsado;
     [SerializeField] private GameObject cepo;
     [SerializeField] private Collider punchColliider;
+    [Header("Sounds")]
+    [SerializeField] private AudioClip sfxKey, sfxDoor, sfxDesactivarLaser, sfxCepo, sfxPisadas, sfxPuño;
 
  
 
@@ -196,6 +198,7 @@ public class PlayerController : MonoBehaviour
         {
             case "objeto":
                 interactuable = true;
+             
                 break;
             case "trampa":
                 trap = true;
@@ -208,6 +211,7 @@ public class PlayerController : MonoBehaviour
                 playerController.enabled = false;
                 break;
             case "cepo":
+                AudioManager.instance.PlaySFX(sfxCepo, 1);
                 StartCoroutine(Cepo());
                 cepo = other.gameObject;
                 cepo.GetComponent<Animator>().SetTrigger("cerrar");
@@ -254,6 +258,7 @@ public class PlayerController : MonoBehaviour
             {
                 if(other.GetComponent<Animator>()!=null)
                 {
+                    AudioManager.instance.PlaySFX(sfxDoor, 1);
                     other.GetComponent<Animator>().SetTrigger("puerta");
                 }
                 else
@@ -265,7 +270,8 @@ public class PlayerController : MonoBehaviour
         }
         if (GameManager.instance.gameData.Key1 == true && interactuable==true)
         {
-            interactuable=false;
+            AudioManager.instance.PlaySFX(sfxKey, 1);
+            interactuable =false;
             Destroy(other.gameObject,0.5f);
         }
     }

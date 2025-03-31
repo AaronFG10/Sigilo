@@ -5,8 +5,9 @@ public class EnemyCorner : EnemyBase
 {
     [SerializeField] private float gradosQueGirar = 90f;
     [SerializeField] private float tiempoEnEspera = 1f;
+    [SerializeField] float duracionGiro = 0.5f;
 
-    private bool mirandoHaciaOriginal = true; // Para alternar entre los dos estados
+    private bool mirandoHaciaOriginal = true; 
 
     void Start()
     {
@@ -21,7 +22,7 @@ public class EnemyCorner : EnemyBase
             Quaternion rotacionInicial = transform.rotation;
             Quaternion rotacionFinal = rotacionInicial * Quaternion.Euler(0, angulo, 0);
             float tiempo = 0f;
-            float duracionGiro = 0.5f; //El total de segundos que tardará mientras gira
+            
 
             while (tiempo < duracionGiro)
             {
