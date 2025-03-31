@@ -1492,16 +1492,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   puertasText: {fileID: 0}
   itemsText: {fileID: 0}
-  enemigos: []
-  player: {fileID: 0}
-  alertaUI: {fileID: 0}
-  rangoVision: 10
-  rangoEscucha: 5
-  capaObstaculos:
-    serializedVersion: 2
-    m_Bits: 0
-  velocidadAlerta: 20
-  maxAlerta: 100
+  interrogante: {fileID: 0}
+  rangoAlerta: 5
+  currentAlerta: 0
+  speedAlerta: 1
+  enemies: []
+  arrestPanel: {fileID: 0}
+  victoryPanel: {fileID: 0}
+  pillado: 0
 --- !u!4 &889760881
 Transform:
   m_ObjectHideFlags: 0
@@ -1722,13 +1720,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 961739749}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -765, y: 3160, z: 344}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: -0.7071068, w: 0}
+  m_LocalPosition: {x: -1517, y: 364, z: 200}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: -180}
 --- !u!1 &966221503
 GameObject:
   m_ObjectHideFlags: 0
