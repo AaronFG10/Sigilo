@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.InputSystem;
+using UnityEditor;
 
 public class EnemyBase : MonoBehaviour
 {
@@ -139,21 +140,22 @@ public class EnemyBase : MonoBehaviour
     {
         Transform[] puntosDeVision = { visionIzquierdo, visionDerecho, visionMedio };
 
-        foreach (Transform punto in puntosDeVision)
+       foreach (Transform punto in puntosDeVision)
         {
-            if (punto == null) continue; 
-
+            //if (punto == null) continue;
             RaycastHit hit;
             if (Physics.Raycast(punto.position, punto.forward, out hit, distanciaVision))
             {
+                Debug.DrawRay(punto.position, punto.forward * distanciaVision, Color.red);
                 if (hit.collider.CompareTag("Player"))
                 {
                     Debug.Log("Jugador detectado por " + punto.name);
                     MostrarPantallaDeArresto();
                 }
             }
-            Debug.DrawRay(punto.position, punto.forward * distanciaVision, Color.red);
+            
         }
+        
     }
     private void MostrarPantallaDeArresto()//Para activar la pantalla de arresto
     {
