@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.InputSystem;
 using UnityEditor;
+using System.ComponentModel.Design;
 
 public class EnemyBase : MonoBehaviour
 {
@@ -19,8 +20,8 @@ public class EnemyBase : MonoBehaviour
     public Transform visionMedio;
     [SerializeField] private float distanciaVision = 10f;
     [SerializeField] private GameObject panelArresto;
-    [SerializeField] private GameObject ragdollPrefab;
-
+    //[SerializeField] private GameObject ragdollPrefab;
+    public bool activarRaycast = false;
 
     private void Start()
     {
@@ -30,8 +31,13 @@ public class EnemyBase : MonoBehaviour
     }
     private void Update()
     {
-        DetectarJugadorConRaycast();
+        if (activarRaycast)
+        {
+            DetectarJugadorConRaycast();
+        }
     }
+
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -57,7 +63,7 @@ public class EnemyBase : MonoBehaviour
         }
     }
 
-    private void ReemplazarPorRagdoll()
+   /*private void ReemplazarPorRagdoll()
     {
         if (ragdollPrefab != null)
         {
@@ -70,7 +76,7 @@ public class EnemyBase : MonoBehaviour
             Debug.LogError("No se ha asignado un prefab de ragdoll en el inspector.");
         }
 
-    }
+    }*/
     private IEnumerator ControlarEscucha()
     {
         while (jugadorEnRango)
@@ -169,5 +175,10 @@ public class EnemyBase : MonoBehaviour
             Debug.LogError("El panel de arresto no está asignado en el Inspector.");
         }
     }
+    public void ActivarRaycast(bool estado)
+    {
+        activarRaycast = estado;
+    }
+
 
 }

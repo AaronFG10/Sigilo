@@ -4,11 +4,13 @@ using UnityEngine.UI;
 public class EnemyUI : MonoBehaviour
 {
     [SerializeField] private Image barraAlertaUI;
-    [SerializeField] private EnemyBase enemigo;
+    private EnemyBase enemigo;
     private new Camera camera;
 
     private void Start()
     {
+        enemigo = GetComponentInParent<EnemyBase>();
+        Debug.Log("Pillado la referencia " + enemigo); 
         camera = GameObject.Find("MainCamera").GetComponent<Camera>();
     }
     private void Update()
