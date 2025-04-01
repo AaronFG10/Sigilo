@@ -115,29 +115,34 @@ public class PlayerController : MonoBehaviour
         }
 
         //shader agujero pared
-        Collider[] hitCollidesrs= Physics.OverlapSphere(rb.transform.position,1f);
+        Collider[] hitColliders= Physics.OverlapSphere(rb.transform.position,10f);
 
-        foreach(var hitCollider in hitCollidesrs)
+        foreach(var hitCollider in hitColliders)
         {
-            Debug.Log(hitCollider.name);
+          
 
            // hitCollider.enabled = false;
             float x = 0f;
             if (Vector3.Distance(hitCollider.transform.position, CameraMain.transform.position) < Vector3.Distance(rb.centerOfMass + rb.transform.position, CameraMain.transform.position))
                 {
                 x=HoleSize;
+                Debug.Log("if");
                 }
+           
             try
             {
                 Material[] materials = hitCollider.transform.GetComponent<Renderer>().materials;
-                for(int i = 0; i < materials.Length; i++) 
+                Debug.Log("try");
+                for (int i = 0; i < materials.Length; i++) 
                 {
-                    materials[i].SetFloat("_Step", x);
+                    Debug.Log("for");
+                    materials[i].SetFloat("hole", x);
                 }
             }
             catch
             {
-                //Debug.Log("fskgn");
+                Debug.Log("catch");
+
             }
         }
 
