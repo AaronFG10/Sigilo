@@ -8,7 +8,10 @@ public class LevelManager : MonoBehaviour
 {
     [Header ("UI de interacción")]
     public TextMeshProUGUI puertasText;
+    public Image puertasButtonImage;
+
     public TextMeshProUGUI itemsText;
+    public Image itemsButtonImage;
 
     private Collider currentPuerta;
     private Collider currentItem;
@@ -31,7 +34,10 @@ public class LevelManager : MonoBehaviour
     void Start()
     {
         puertasText.gameObject.SetActive(false);
+        puertasButtonImage.gameObject.SetActive(false);
+
         itemsText.gameObject.SetActive(false);
+        itemsButtonImage.gameObject.SetActive(false);
 
         interrogante.fillAmount = 0f;
 
@@ -59,13 +65,13 @@ public class LevelManager : MonoBehaviour
     {
         if (other.CompareTag("Puerta"))
         {
-            puertasText.gameObject.SetActive(true);
+            ShowPuertaUI ("Abrir puerta");
             currentPuerta = other;
         }
 
         else if (other.CompareTag("Item"))
         {
-            itemsText.gameObject.SetActive(true);
+            ShowItemsUI ("Recoger objeto");
             currentItem = other;
         }
     }
@@ -74,13 +80,13 @@ public class LevelManager : MonoBehaviour
     {
         if (other.CompareTag("Puerta"))
         {
-            puertasText.gameObject.SetActive(false);
+            HidePuertaUI();
             currentPuerta = null;
         }
 
         else if (other.CompareTag("Item"))
         {
-            itemsText.gameObject.SetActive(false);
+            HideItemsUI();
             currentItem = null;
         }
     }
@@ -90,6 +96,7 @@ public class LevelManager : MonoBehaviour
         if (currentPuerta != null)
         {
             Debug.Log("Puerta abierta");
+            HidePuertaUI();
             return;
         }
 
@@ -97,10 +104,36 @@ public class LevelManager : MonoBehaviour
         {
             Debug.Log("Objeto recogido");
             Destroy(currentItem.gameObject);
-            itemsText.gameObject.SetActive(false); 
+            HideItemsUI();
             currentItem = null; 
             return;
         }
+    }
+
+    private void ShowPuertaUI (string message)
+    {
+        puertasText.text = message;
+        puertasText.gameObject.SetActive(true);
+        puertasButtonImage.gameObject.SetActive(true);
+    }
+
+    private void HidePuertaUI()
+    {
+        puertasText.gameObject.SetActive(false);
+        puertasButtonImage.gameObject.SetActive(false);
+    }
+
+    private void ShowItemsUI(string message)
+    {
+        itemsText.text = message;
+        itemsText.gameObject.SetActive(true);
+        itemsButtonImage.gameObject.SetActive(true);
+    }
+
+    private void HideItemsUI()
+    {
+        itemsText.gameObject.SetActive(false);
+        itemsButtonImage.gameObject.SetActive(false);
     }
 
     private void UpdatePeligro()
