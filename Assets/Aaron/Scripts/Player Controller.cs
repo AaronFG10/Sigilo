@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     public int tipoMove;
     [SerializeField] private bool estaAgachado;
     [SerializeField] private bool estCorriendo;
+    [SerializeField] private bool punch;
 
     [SerializeField] private bool interactuable;
     [SerializeField] private bool trap;
@@ -26,10 +27,12 @@ public class PlayerController : MonoBehaviour
     private int cepoPulsado;
     [SerializeField] private GameObject cepo;
     [SerializeField] private Collider punchColliider;
-    public float HoleSize;
     private Camera CameraMain;
+    [SerializeField]private Material[] materials;
+    [SerializeField]private Material[] lastMaterial;
+    [SerializeField] private float radioAgujero;
     [Header("Sounds")]
-    [SerializeField] private AudioClip sfxKey, sfxDoor, sfxDesactivarLaser, sfxCepo, sfxPisadas, sfxPu�o;
+    [SerializeField] private AudioClip sfxKey, sfxDoor, sfxDesactivarLaser, sfxCepo, sfxPisadas, sfxPuño,sfxPollo,sfxSandia;
 
  
 
@@ -113,15 +116,13 @@ public class PlayerController : MonoBehaviour
             tipoMove = 4;
             animator.SetBool("camAgachado", false);
         }
-
+/*
         //shader agujero pared
         Collider[] hitColliders= Physics.OverlapSphere(rb.transform.position,10f);
 
         foreach(var hitCollider in hitColliders)
         {
-          
-
-           // hitCollider.enabled = false;
+              // hitCollider.enabled = false;
             float x = 0f;
             if (Vector3.Distance(hitCollider.transform.position, CameraMain.transform.position) < Vector3.Distance(rb.centerOfMass + rb.transform.position, CameraMain.transform.position))
                 {
@@ -145,8 +146,55 @@ public class PlayerController : MonoBehaviour
 
             }
         }
+        */
 
+        Ray ray=Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));//Camera.main.ScreenPointToRay(new Vector3(Screen.width/2,Screen.height/2,0));
+        RaycastHit rayHit;
+        Vector3 rayOrigin = Camera.main.transform.position;
+Vector3 rayDirection = Camera.main.transform.forward;
+
+Debug.DrawRay(rayOrigin, rayDirection * 5, Color.red, 0.1f);
+         if (Physics.Raycast(ray, out rayHit))
+         {
+            radioAgujero=0;
+            try
+            {
+              
+                materials=rayHit.transform.GetComponent<Renderer>().materials;
+                for(int i = 0;i<materials.Length; i++)
+                {
+                    if(materials[i].HasProperty("_hole"))
+                    {
+                 
+                    radioAgujero=0.1f;
+                    materials[i].SetFloat("_hole",radioAgujero);
+             
+                    lastMaterial=materials;
+                }
+                
+            }
+            }
+            catch
+            {
+                materials=null;
+            radioAgujero=0;
+            for(int i = 0;i<lastMaterial.Length; i++)
+                {
+                    if(lastMaterial[i].HasProperty("_hole"))
+                    {
+      
+                   
+                    lastMaterial[i].SetFloat("_hole",radioAgujero);
+
+                 
+                }
+                
+            }
+            }     
     }
+   
+    }
+
 
     public void Move(InputAction.CallbackContext context)
     {
@@ -165,18 +213,31 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
+
+public void Pisada()
+{
+    // AudioManager.instance.PlaySFX(sfxPisadas,1);
+}
     
 
     public void Punch(InputAction.CallbackContext context)
     {
+        if(punch==false)
+        {
+            punch=true;
         animator.SetTrigger("punch");
         punchColliider.enabled = true;
-        Invoke("Pu�oColliderCancel", 1);
+         AudioManager.instance.PlaySFX(sfxPuño, 1);
+        Invoke("PuñoColliderCancel", 1);
+        }
+     
     }
 
-    public void Pu�oColliderCancel()
+    public void PuñoColliderCancel()
     {
        punchColliider.enabled = false;
+       punch=false;
     }
     public void Agacharse(InputAction.CallbackContext context)
     {
@@ -259,9 +320,11 @@ public class PlayerController : MonoBehaviour
             case "pollo":
                 animator.SetTrigger("backflip");
                 Destroy(other.gameObject);
+                AudioManager.instance.PlaySFX(sfxPollo,1);
                 break;
             case "sandia":
                 animator.SetTrigger("backflip");
+                AudioManager.instance.PlaySFX(sfxSandia,1);
                 Destroy(other.gameObject);
                 break;
         }
