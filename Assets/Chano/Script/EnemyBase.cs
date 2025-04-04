@@ -13,7 +13,7 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] private float velocidadPerdida = 1f;
     private float barraAlerta = 0f;
     private bool jugadorEnRango = false;
-    private PlayerController jugador;
+    public PlayerController jugador;
     [SerializeField] private Image barraDeAvistamiento; // Referencia a la barra de UI
     public Transform visionIzquierdo;
     public Transform visionDerecho;
@@ -39,20 +39,22 @@ public class EnemyBase : MonoBehaviour
 
 
 
+    [SerializeField] private GameObject ragdollPrefab; // Asigna el prefab del ragdoll en el Inspector
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Player")
+        if (other.gameObject.CompareTag("Player"))
         {
             jugador = other.GetComponent<PlayerController>();
             jugadorEnRango = true;
             StartCoroutine(ControlarEscucha());
         }
-      /*  else if (other.gameObject.CompareTag("Golpe"))
+        else if (other.gameObject.CompareTag("puño"))
         {
             ReemplazarPorRagdoll();
-        }*/
-
+        }
     }
+
 
     private void OnTriggerExit(Collider other)
     {
@@ -156,6 +158,7 @@ public class EnemyBase : MonoBehaviour
                 if (hit.collider.CompareTag("Player"))
                 {
                     Debug.Log("Jugador detectado por " + punto.name);
+                    
                     MostrarPantallaDeArresto();
                 }
             }
@@ -167,6 +170,7 @@ public class EnemyBase : MonoBehaviour
     {
         if (panelArresto != null)
         {
+            Debug.Log("Intentando abrir el Panel de arresto");
             panelArresto.SetActive(true);
             Time.timeScale = 0; 
         }
@@ -178,6 +182,24 @@ public class EnemyBase : MonoBehaviour
     public void ActivarRaycast(bool estado)
     {
         activarRaycast = estado;
+    }
+    private void ReemplazarPorRagdoll()
+    {
+        if (ragdollPrefab != null)
+        {
+
+            GameObject ragdoll = Instantiate(ragdollPrefab, transform.position, transform.rotation);
+
+
+            ragdoll.transform.localScale = transform.localScale;
+
+
+            Destroy(gameObject);
+        }
+        else
+        {
+            Debug.LogError("No se ha asignado un prefab de ragdoll en el Inspector.");
+        }
     }
 
 
