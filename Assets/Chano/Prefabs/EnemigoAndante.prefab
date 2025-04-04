@@ -965,7 +965,7 @@ GameObject:
   - component: {fileID: 2075750673369602381}
   m_Layer: 0
   m_Name: EnemigoAndante
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1017,7 +1017,7 @@ MonoBehaviour:
   distanciaVision: 7
   panelArresto: {fileID: 0}
   activarRaycast: 0
-  ragdollPrefab: {fileID: 0}
+  ragdollPrefab: {fileID: 6367407940591815094, guid: ec3fa8de74d474746b24e42eea65b328, type: 3}
   puntoA: {fileID: 0}
   puntoB: {fileID: 0}
   tiempoEnMovimiento: 15
@@ -1528,7 +1528,7 @@ SphereCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
@@ -2600,7 +2600,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 2368
+  m_VersionIndex: 2371
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -2695,7 +2695,7 @@ MeshCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0

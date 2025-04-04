@@ -49,7 +49,7 @@ public class EnemyBase : MonoBehaviour
             jugadorEnRango = true;
             StartCoroutine(ControlarEscucha());
         }
-        else if (other.gameObject.CompareTag("puño"))
+        else if (other.gameObject.CompareTag("punch"))
         {
             ReemplazarPorRagdoll();
         }
