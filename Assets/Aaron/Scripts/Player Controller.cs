@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]private Material[] lastMaterial;
     [SerializeField] private float radioAgujero;
     [Header("Sounds")]
-    [SerializeField] private AudioClip sfxKey, sfxDoor, sfxDesactivarLaser, sfxCepo, sfxPisadas, sfxPuño,sfxPollo,sfxSandia;
+    [SerializeField] private AudioClip sfxKey, sfxDoor, sfxDesactivarLaser, sfxCepo, sfxPuño,sfxPollo,sfxSandia;
 
  
 
@@ -153,7 +153,7 @@ public class PlayerController : MonoBehaviour
         Vector3 rayOrigin = Camera.main.transform.position;
 Vector3 rayDirection = Camera.main.transform.forward;
 
-Debug.DrawRay(rayOrigin, rayDirection * 5, Color.red, 0.1f);
+//Debug.DrawRay(rayOrigin, rayDirection * 5, Color.red, 0.1f);
          if (Physics.Raycast(ray, out rayHit))
          {
             radioAgujero=0;
@@ -215,10 +215,6 @@ Debug.DrawRay(rayOrigin, rayDirection * 5, Color.red, 0.1f);
 
 
 
-public void Pisada()
-{
-    // AudioManager.instance.PlaySFX(sfxPisadas,1);
-}
     
 
     public void Punch(InputAction.CallbackContext context)
