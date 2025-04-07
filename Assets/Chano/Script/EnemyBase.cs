@@ -21,6 +21,7 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] private float distanciaVision = 10f;
     [SerializeField] private GameObject panelArresto;
     //[SerializeField] private GameObject ragdollPrefab;
+    private Coroutine rutinaEscucha;
     public bool activarRaycast = false;
 
     private void Start()
@@ -43,42 +44,24 @@ public class EnemyBase : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.tag =="Player")
         {
             jugador = other.GetComponent<PlayerController>();
             jugadorEnRango = true;
-            StartCoroutine(ControlarEscucha());
+
+            if (rutinaEscucha == null)
+            {
+                rutinaEscucha = StartCoroutine(ControlarEscucha());
+            }
         }
-        else if (other.gameObject.CompareTag("punch"))
+        else if (other.gameObject.tag =="punch")
         {
-            ReemplazarPorRagdoll();
+            Vector3 direccionDelGolpe = transform.position - other.transform.position;
+            float fuerza = 200f; //Fuerza de la hostia
+            ReemplazarPorRagdoll(direccionDelGolpe, fuerza);
+
         }
     }
-
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.tag == "Player")
-        {
-            jugadorEnRango = false;
-            jugador = null;
-        }
-    }
-
-   /*private void ReemplazarPorRagdoll()
-    {
-        if (ragdollPrefab != null)
-        {
-            GameObject ragdoll = Instantiate(ragdollPrefab, transform.position, transform.rotation);
-            ragdoll.transform.localScale = transform.localScale;
-            Destroy(gameObject);
-        }
-        else
-        {
-            Debug.LogError("No se ha asignado un prefab de ragdoll en el inspector.");
-        }
-
-    }*/
     private IEnumerator ControlarEscucha()
     {
         while (jugadorEnRango)
@@ -155,7 +138,7 @@ public class EnemyBase : MonoBehaviour
             if (Physics.Raycast(punto.position, punto.forward, out hit, distanciaVision))
             {
                 Debug.DrawRay(punto.position, punto.forward * distanciaVision, Color.red);
-                if (hit.collider.CompareTag("Player"))
+                if (hit.collider.tag =="Player")
                 {
                     Debug.Log("Jugador detectado por " + punto.name);
                     
@@ -183,17 +166,23 @@ public class EnemyBase : MonoBehaviour
     {
         activarRaycast = estado;
     }
-    private void ReemplazarPorRagdoll()
+    private void ReemplazarPorRagdoll(Vector3 direccionGolpe, float fuerzaGolpe)
     {
         if (ragdollPrefab != null)
         {
-
             GameObject ragdoll = Instantiate(ragdollPrefab, transform.position, transform.rotation);
-
-
             ragdoll.transform.localScale = transform.localScale;
 
+            Rigidbody[] rigidbodies = ragdoll.GetComponentsInChildren<Rigidbody>();
 
+            if (rigidbodies.Length > 0)
+            {
+                foreach (Rigidbody rb in rigidbodies)
+                {
+                    rb.AddForce(direccionGolpe.normalized * fuerzaGolpe, ForceMode.Impulse);
+                }
+            }
+            Destroy(ragdoll, 5f);
             Destroy(gameObject);
         }
         else
@@ -201,6 +190,8 @@ public class EnemyBase : MonoBehaviour
             Debug.LogError("No se ha asignado un prefab de ragdoll en el Inspector.");
         }
     }
+
+
 
 
 }
