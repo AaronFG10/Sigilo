@@ -51,7 +51,12 @@ public class LevelManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.E))
         {
-            Interact();
+            InteractPuerta();
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            InteractItem();
         }
 
         if (!pillado)
@@ -91,7 +96,7 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    private void Interact()
+    private void InteractPuerta()
     {
         if (currentPuerta != null)
         {
@@ -99,13 +104,16 @@ public class LevelManager : MonoBehaviour
             HidePuertaUI();
             return;
         }
+    }
 
+    private void InteractItem()
+    {
         if (currentItem != null)
         {
             Debug.Log("Objeto recogido");
             Destroy(currentItem.gameObject);
             HideItemsUI();
-            currentItem = null; 
+            currentItem = null;
             return;
         }
     }
