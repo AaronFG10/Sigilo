@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour
         }        
 
        
-        if (estaAgachado==true  && (InputValue != Vector2.zero) )
+        if (estaAgachado==true && (InputValue != Vector2.zero))
         {
            
             animator.SetBool("camAgachado", true);
@@ -105,6 +105,7 @@ public class PlayerController : MonoBehaviour
             speed = 0.5f* nivelSpeed;
             if(estCorriendo==true)
             {
+                animator.SetBool("correr", true);
                 tipoMove = 2;
                 speed = 1.25f * nivelSpeed;
             }
@@ -154,12 +155,12 @@ public class PlayerController : MonoBehaviour
         }
         */
 
-        Ray ray=Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));//Camera.main.ScreenPointToRay(new Vector3(Screen.width/2,Screen.height/2,0));
+        Ray ray=Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.4f, 0));//Camera.main.ScreenPointToRay(new Vector3(Screen.width/2,Screen.height/2,0));
         RaycastHit rayHit;
-        Vector3 rayOrigin = Camera.main.transform.position;
+        Vector3 rayOrigin = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y-1, Camera.main.transform.position.z);
 Vector3 rayDirection = Camera.main.transform.forward;
 
-//Debug.DrawRay(rayOrigin, rayDirection * 5, Color.red, 0.1f);
+Debug.DrawRay(rayOrigin, rayDirection * 5, Color.red, 0.1f);
          if (Physics.Raycast(ray, out rayHit))
          {
             radioAgujero=0;
@@ -172,7 +173,7 @@ Vector3 rayDirection = Camera.main.transform.forward;
                     if(materials[i].HasProperty("_hole"))
                     {
                  
-                    radioAgujero=0.1f;
+                    radioAgujero=0.2f;
                     materials[i].SetFloat("_hole",radioAgujero);
              
                     lastMaterial=materials;
@@ -205,7 +206,7 @@ Vector3 rayDirection = Camera.main.transform.forward;
     public void Move(InputAction.CallbackContext context)
     {
         
-        if (  estCorriendo == false)
+        if (  estCorriendo == false && estaAgachado==false)
         {
             animator.SetBool("walk", true);
             speed = 1 * nivelSpeed;
