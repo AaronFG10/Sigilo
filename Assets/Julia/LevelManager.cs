@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEditor.Experimental.GraphView;
@@ -28,7 +29,13 @@ public class LevelManager : MonoBehaviour
     public GameObject arrestPanel;
     public GameObject victoryPanel;
 
-    public bool pillado = false;    
+    public bool pillado = false;
+
+    public Image transitionImage;
+    public float transitionSpeed;
+
+    public int currentLevel = 1;
+    public int totalLevels = 3;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -68,13 +75,13 @@ public class LevelManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Puerta"))
+        if (other.CompareTag("door"))
         {
             ShowPuertaUI ("Abrir puerta");
             currentPuerta = other;
         }
 
-        else if (other.CompareTag("Item"))
+        else if (other.CompareTag("objeto"))
         {
             ShowItemsUI ("Recoger objeto");
             currentItem = other;
@@ -83,13 +90,13 @@ public class LevelManager : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Puerta"))
+        if (other.CompareTag("door"))
         {
             HidePuertaUI();
             currentPuerta = null;
         }
 
-        else if (other.CompareTag("Item"))
+        else if (other.CompareTag("objeto"))
         {
             HideItemsUI();
             currentItem = null;
@@ -187,8 +194,30 @@ public class LevelManager : MonoBehaviour
 
     private void TriggerVictory()
     {
-        victoryPanel.SetActive(true);
-        Time.timeScale = 0f;
+        if (currentLevel >= totalLevels)
+        {
+            victoryPanel.SetActive(true);
+            Time.timeScale = 0f;
+        }
+
+        else
+        {
+            StartCoroutine(LoadNextLevel());
+        }
+    }
+
+    private IEnumerator LoadNextLevel()
+    {
+        float alpha = 0f;
+        while (alpha < 1f)
+        {
+            alpha += Time.unscaledDeltaTime * transitionSpeed;
+            transitionImage.color = new Color(0f, 0f, 0f, alpha);
+            yield return null;
+        }
+
+        int nextSceneIndex = UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex + 1;
+        UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneIndex);
     }
 }
 
