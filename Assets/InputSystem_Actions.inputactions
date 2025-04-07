@@ -63,17 +63,6 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "80e010dc-067f-43e7-a3f0-ef2c510d6066",
-                    "path": "<Gamepad>/buttonWest",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad",
-                    "action": "Punch",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "c282ed43-edb3-43e0-b0ee-41b5c3ba42fa",
                     "path": "<Keyboard>/#(E)",
                     "interactions": "",
@@ -85,12 +74,12 @@
                 },
                 {
                     "name": "",
-                    "id": "693d57b6-b6f3-4159-8411-43fa70a67c1c",
-                    "path": "<Gamepad>/leftStick",
+                    "id": "7c61e179-91c6-444b-9313-4a18195c990c",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Gamepad;Keyboard&Mouse;Touch;Joystick;XR",
-                    "action": "Move",
+                    "groups": "",
+                    "action": "Punch",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -151,12 +140,12 @@
                 },
                 {
                     "name": "",
-                    "id": "eae91068-21ce-4f0d-880a-522dd05432e9",
-                    "path": "<Gamepad>/buttonEast",
+                    "id": "4d1e5b41-41c8-4001-b5c2-9dafa0937a06",
+                    "path": "<Gamepad>/leftStick",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "Agacharse",
+                    "groups": ";Keyboard&Mouse;Gamepad;Touch;Joystick;XR",
+                    "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -167,6 +156,17 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
+                    "action": "Agacharse",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e89d1191-6f41-46aa-a265-048605cf2d3b",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse;Gamepad;Touch;Joystick;XR",
                     "action": "Agacharse",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -206,8 +206,30 @@
                 },
                 {
                     "name": "",
+                    "id": "4138c579-5739-484d-9c5d-28437800d31c",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interactuar",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "ff5f91b4-08a2-45ce-842e-5dd50e23eba9",
                     "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Space",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "500f412c-c6d1-449f-aaf1-026c5c92ea5c",
+                    "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

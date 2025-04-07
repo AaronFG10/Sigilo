@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     private PlayerController playerController;
     public Animator animator;
     [SerializeField] private float speed;
+    [SerializeField] private float nivelSpeed;
     public int tipoMove;
     [SerializeField] private bool estaAgachado;
     [SerializeField] private bool estCorriendo;
@@ -43,7 +44,7 @@ public class PlayerController : MonoBehaviour
         playerController = GetComponent<PlayerController>();
         rb = GetComponent<Rigidbody>();
         capsule = GetComponent<CapsuleCollider>();
-        cam= GameObject.Find("Main Camera").GetComponent<CameraController>();
+        cam= GameObject.Find("MainCamera").GetComponent<CameraController>();
         CameraMain = Camera.main;
         
 
@@ -53,9 +54,7 @@ public class PlayerController : MonoBehaviour
 
         if (context.performed == true)
         {
-            tipoMove = 3;
-            animator.SetBool("correr", true);
-            speed = 1.5f;
+            
             estCorriendo = true;
         }
 
@@ -103,12 +102,19 @@ public class PlayerController : MonoBehaviour
            
             animator.SetBool("camAgachado", true);
             tipoMove=1;
-            speed = 0.5f;
+            speed = 0.5f* nivelSpeed;
             if(estCorriendo==true)
             {
                 tipoMove = 2;
-                speed = 1.25f;
+                speed = 1.25f * nivelSpeed;
             }
+        }
+        else if(estCorriendo==true && (InputValue != Vector2.zero))
+        {
+            Debug.Log("corre");
+            tipoMove = 3;
+            animator.SetBool("correr", true);
+            speed = 1.5f * nivelSpeed;
         }
 
         else if(estaAgachado == true && InputValue==Vector2.zero)
@@ -199,10 +205,10 @@ Vector3 rayDirection = Camera.main.transform.forward;
     public void Move(InputAction.CallbackContext context)
     {
         
-        if (estaAgachado== false && estCorriendo == false)
+        if (  estCorriendo == false)
         {
             animator.SetBool("walk", true);
-            speed = 1;
+            speed = 1 * nivelSpeed;
             tipoMove = 0;
         }
        
@@ -223,12 +229,19 @@ Vector3 rayDirection = Camera.main.transform.forward;
         {
             punch=true;
         animator.SetTrigger("punch");
-        punchColliider.enabled = true;
+            Invoke("puñoCollider", 0.5f);
+        
          AudioManager.instance.PlaySFX(sfxPuño, 1);
         Invoke("PuñoColliderCancel", 1);
         }
      
     }
+
+    public void puñoCollider()
+    {
+        punchColliider.enabled = true;
+    }
+   
 
     public void PuñoColliderCancel()
     {
@@ -237,13 +250,18 @@ Vector3 rayDirection = Camera.main.transform.forward;
     }
     public void Agacharse(InputAction.CallbackContext context)
     {
+        if (context.phase == InputActionPhase.Performed)
+        {
+
+            Debug.Log("Pasa algo");
+        }
         if(estaAgachado==false)
         {
             tipoMove=1;
             estaAgachado = true;
             animator.SetBool("walk", false);
             animator.SetBool("agacharse",true);
-            speed = 0.5f;
+            speed = 0.5f * nivelSpeed;
             capsule.center =new Vector3(0.00019f, 1, 0.03492917f);
             capsule.height = 1; 
         }
@@ -280,6 +298,13 @@ Vector3 rayDirection = Camera.main.transform.forward;
             Quaternion rotacion = Quaternion.LookRotation(direccion);
             transform.rotation = rotacion;
             StartCoroutine(DesacTrap());
+        }
+    }
+    public void Pausa(InputAction.CallbackContext context)
+    {
+        if(context.started == true)
+        {
+            //lm.Pausa();
         }
     }
 
