@@ -6,6 +6,8 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField]
     private GameObject MainPanel, selectMapPanel;
 
+    private Vector3 originalScale;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -39,13 +41,18 @@ public class MainMenuManager : MonoBehaviour
 
     public void OnButtonSelect(Transform buttonTrans)
     {
-        buttonTrans.localScale = Vector3.one * 1.1f;
+        if (originalScale == Vector3.zero)
+        {
+            originalScale = buttonTrans.localScale;
+        }
+
+        buttonTrans.localScale = originalScale * 1.1f;
         buttonTrans.GetChild(0).gameObject.SetActive(true);
     }
 
     public void OnButtonDeselect(Transform buttonTrans)
     {
-        buttonTrans.localScale = Vector3.one;
+        buttonTrans.localScale = originalScale;
         buttonTrans.GetChild(0).gameObject.SetActive(false);
     }
 }
