@@ -44,24 +44,46 @@ public class EnemyBase : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag =="Player")
+        if (other.gameObject.tag == "Player")
         {
             jugador = other.GetComponent<PlayerController>();
             jugadorEnRango = true;
 
-            if (rutinaEscucha == null)
+            if (rutinaEscucha != null)
             {
-                rutinaEscucha = StartCoroutine(ControlarEscucha());
+                StopCoroutine(rutinaEscucha);
+                rutinaEscucha = null;
             }
+            rutinaEscucha = StartCoroutine(ControlarEscucha());
         }
-        else if (other.gameObject.tag =="punch")
+        else if (other.gameObject.tag == "punch")
         {
             Vector3 direccionDelGolpe = transform.position - other.transform.position;
             float fuerza = 200f; //Fuerza de la hostia
             ReemplazarPorRagdoll(direccionDelGolpe, fuerza);
-
         }
     }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            jugadorEnRango = false;
+            jugador = null;
+
+            if (rutinaEscucha != null)
+            {
+                StopCoroutine(rutinaEscucha);
+                rutinaEscucha = null;
+            }
+            if (barraAlerta > 0)
+            {
+                rutinaEscucha = StartCoroutine(Calmarse());
+            }
+        }
+    }
+
+
     private IEnumerator ControlarEscucha()
     {
         while (jugadorEnRango)
@@ -110,6 +132,18 @@ public class EnemyBase : MonoBehaviour
         if (jugador.tipoMove == 0) return 1f;                            // Caminando (ruido moderado)
 
         return 0f;
+    }
+    private IEnumerator Calmarse()
+    {
+        while (barraAlerta > 0)
+        {
+            barraAlerta -= velocidadPerdida * Time.deltaTime;
+            barraAlerta = Mathf.Clamp(barraAlerta, 0, tiempoParaDetectar);
+            ActualizarBarra();
+            yield return null;
+        }
+
+        rutinaEscucha = null;
     }
 
     private void ActualizarBarra()
