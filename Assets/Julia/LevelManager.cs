@@ -42,12 +42,6 @@ public class LevelManager : MonoBehaviour
     public AudioSource sirenAudioSource;
     public AudioSource victoryAudioSource;
 
-    [Header("UI del Menú de Pausa")]
-    public GameObject pausePanel;  
-    public GameObject otherUI;
-
-    private bool isPaused = false;
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -63,7 +57,6 @@ public class LevelManager : MonoBehaviour
 
         arrestPanel.SetActive(false);
         victoryPanel.SetActive(false);
-        pausePanel.SetActive(false);
 
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
     }
@@ -86,33 +79,6 @@ public class LevelManager : MonoBehaviour
             CheckVictory();
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (isPaused)
-            {
-                ResumeGame();  
-            }
-            else
-            {
-                PauseGame();   
-            }
-        }
-    }
-
-    private void PauseGame()
-    {
-        isPaused = true;
-        pausePanel.SetActive(true);  
-        otherUI.SetActive(false);    
-        Time.timeScale = 0f;
-    }
-
-    private void ResumeGame()
-    {
-        isPaused = false;
-        pausePanel.SetActive(false);
-        otherUI.SetActive(true);     
-        Time.timeScale = 1f;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -216,14 +182,6 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    private void CheckVictory()
-    {
-        if (Vector3.Distance(transform.position, GameObject.FindGameObjectWithTag("Victory").transform.position) < 2f)
-        {
-            TriggerVictory();
-        }
-    }
-
     private void TriggerArrest()
     {
         if (!pillado)
@@ -253,6 +211,14 @@ public class LevelManager : MonoBehaviour
     public void QuitGame()
     {
         Application.Quit();
+    }
+
+    private void CheckVictory()
+    {
+        if (Vector3.Distance(transform.position, GameObject.FindGameObjectWithTag("Victory").transform.position) < 2f)
+        {
+            TriggerVictory();
+        }
     }
 
     private void TriggerVictory()

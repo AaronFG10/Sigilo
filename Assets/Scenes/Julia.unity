@@ -3963,8 +3963,6 @@ MonoBehaviour:
   totalLevels: 3
   sirenAudioSource: {fileID: 889760882}
   victoryAudioSource: {fileID: 889760883}
-  pausePanel: {fileID: 815330805}
-  otherUI: {fileID: 1309631598}
 --- !u!4 &889760881
 Transform:
   m_ObjectHideFlags: 0
