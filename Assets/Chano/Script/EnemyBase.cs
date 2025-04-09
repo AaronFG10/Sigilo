@@ -19,17 +19,16 @@ public class EnemyBase : MonoBehaviour
     public Transform visionDerecho;
     public Transform visionMedio;
     [SerializeField] private float distanciaVision = 10f;
-    [SerializeField] private GameObject panelArresto;
-    //[SerializeField] private GameObject ragdollPrefab;
+
+
     private Coroutine rutinaEscucha;
     public bool activarRaycast = false;
+    private GameObject panelArresto;
+    [SerializeField] private GameObject ragdollPrefab;
+    private LevelManager levelManager;
 
-    private void Start()
-    {
-        {
-            jugador = GetComponent<PlayerController>();
-        }
-    }
+    
+
     private void Update()
     {
         if (activarRaycast)
@@ -37,10 +36,6 @@ public class EnemyBase : MonoBehaviour
             DetectarJugadorConRaycast();
         }
     }
-
-
-
-    [SerializeField] private GameObject ragdollPrefab; // Asigna el prefab del ragdoll en el Inspector
 
     private void OnTriggerEnter(Collider other)
     {
@@ -153,7 +148,6 @@ public class EnemyBase : MonoBehaviour
         float porcentaje = barraAlerta / tiempoParaDetectar;
         barraDeAvistamiento.fillAmount = porcentaje;
 
-        // Cambiar color de verde > amarillo > rojo
         Color color = Color.Lerp(Color.green, Color.red, porcentaje);
         barraDeAvistamiento.color = color;
     }
@@ -167,7 +161,6 @@ public class EnemyBase : MonoBehaviour
 
        foreach (Transform punto in puntosDeVision)
         {
-            //if (punto == null) continue;
             RaycastHit hit;
             if (Physics.Raycast(punto.position, punto.forward, out hit, distanciaVision))
             {
@@ -183,19 +176,26 @@ public class EnemyBase : MonoBehaviour
         }
         
     }
-    private void MostrarPantallaDeArresto()//Para activar la pantalla de arresto
-    {
-        if (panelArresto != null)
+    private void MostrarPantallaDeArresto()
+    {/*
+        if (levelManager == null)
         {
-            Debug.Log("Intentando abrir el Panel de arresto");
-            panelArresto.SetActive(true);
-            Time.timeScale = 0; 
+            levelManager = FindObjectOfType<LevelManager>();
+        }
+
+        if (levelManager != null)
+        {
+            levelManager.TriggerArrest();
         }
         else
         {
-            Debug.LogError("El panel de arresto no está asignado en el Inspector.");
+            Debug.LogError("LevelManager no encontrado en la escena.");
         }
+        */
     }
+
+
+
     public void ActivarRaycast(bool estado)
     {
         activarRaycast = estado;
