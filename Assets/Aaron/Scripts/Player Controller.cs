@@ -219,7 +219,13 @@ Debug.DrawRay(rayOrigin, rayDirection * 5, Color.red, 0.1f);
         }
     }
 
-
+    public void Pause(InputAction.CallbackContext context)
+    {
+        if (context.started==true)
+        {
+            //lm.Pause();
+        }
+    }
 
     
 
