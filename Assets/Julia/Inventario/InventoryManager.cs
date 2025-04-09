@@ -24,11 +24,13 @@ public class InventoryManager : MonoBehaviour
     public void Add(InventoryObject item)
     {
         items.Add(item);
+        ListItems();
     }
 
     public void Remove(InventoryObject item)
     {
         items.Remove(item);
+        ListItems();
     }
 
     public void ListItems()
@@ -47,6 +49,13 @@ public class InventoryManager : MonoBehaviour
 
             itemIcon.sprite = item.icon;
             itemName.text = item.itemName;
+
+            var itemController = obj.GetComponent<InventoryItemControler>();
+            itemController.AddItem(item);
+            obj.GetComponent<Button>().onClick.AddListener(() => itemController.UseItem());
+
+            removeButton.onClick.RemoveAllListeners();
+            removeButton.onClick.AddListener(() => itemController.RemoveItem());
 
             if (enableRemove.isOn)
             {

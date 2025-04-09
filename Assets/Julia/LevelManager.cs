@@ -42,6 +42,11 @@ public class LevelManager : MonoBehaviour
     public AudioSource sirenAudioSource;
     public AudioSource victoryAudioSource;
 
+    [Header("Pantalla de pausa")]
+    public GameObject pausePanel;
+
+    private bool isPaused = false;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -73,16 +78,25 @@ public class LevelManager : MonoBehaviour
             InteractItem();
         }
 
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            TogglePause();
+        }
+
         if (!pillado)
         {
             UpdatePeligro();
             CheckVictory();
         }
-
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.CompareTag("Victory"))
+        {
+            TriggerVictory();
+        }
+
         if (other.CompareTag("door"))
         {
             ShowPuertaUI ("Abrir puerta");
@@ -180,6 +194,30 @@ public class LevelManager : MonoBehaviour
         {
             TriggerArrest();
         }
+    }
+
+    public void TogglePause()
+    {
+        isPaused = !isPaused;
+
+        if (isPaused)
+        {
+            Time.timeScale = 0f;
+            pausePanel.SetActive(true);
+        }
+
+        else
+        {
+            Time.timeScale = 1f;
+            pausePanel.SetActive(false);
+        }
+    }
+
+    public void ResumeGame()
+    {
+        isPaused = false;
+        Time.timeScale = 1f;
+        pausePanel.SetActive(false);
     }
 
     private void TriggerArrest()

@@ -8,6 +8,7 @@ public class InventoryObject : ScriptableObject
     public int value;
     public Sprite icon;
     public ItemType itemType;
+    public GameObject prefab;
 
     public enum ItemType
     {
