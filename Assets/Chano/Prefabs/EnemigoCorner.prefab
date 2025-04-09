@@ -212,7 +212,7 @@ Transform:
   m_GameObject: {fileID: 605772235249585947}
   serializedVersion: 2
   m_LocalRotation: {x: -0.00013139601, y: -0.07355824, z: 0.0027650797, w: 0.99728715}
-  m_LocalPosition: {x: -0.02, y: 0.3, z: 0.52}
+  m_LocalPosition: {x: -0.02, y: 1, z: 0.52}
   m_LocalScale: {x: 0.9199598, y: 0.9199604, z: 0.9199597}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1442,7 +1442,7 @@ Transform:
   m_GameObject: {fileID: 4141240168947313873}
   serializedVersion: 2
   m_LocalRotation: {x: 0.0000000017317682, y: 0.081351236, z: 0.0000000056452008, w: 0.9966855}
-  m_LocalPosition: {x: 0.07, y: 0.3, z: 0.56}
+  m_LocalPosition: {x: 0.07, y: 1, z: 0.56}
   m_LocalScale: {x: 0.91995984, y: 0.91996026, z: 0.91995984}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2109,7 +2109,6 @@ MonoBehaviour:
   visionDerecho: {fileID: 2415010252219160704}
   visionMedio: {fileID: 8356894553923295630}
   distanciaVision: 5
-  panelArresto: {fileID: 0}
   activarRaycast: 0
   ragdollPrefab: {fileID: 6367407940591815094, guid: ec3fa8de74d474746b24e42eea65b328, type: 3}
   gradosQueGirar: 90
@@ -2446,7 +2445,7 @@ Transform:
   m_GameObject: {fileID: 7652636538326964840}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.3, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

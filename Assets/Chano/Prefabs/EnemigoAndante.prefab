@@ -753,7 +753,7 @@ Transform:
   m_GameObject: {fileID: 2257737801999484393}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.3, z: 0.97}
+  m_LocalPosition: {x: -0, y: 1, z: 0.97}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1015,7 +1015,6 @@ MonoBehaviour:
   visionDerecho: {fileID: 5509101807062722200}
   visionMedio: {fileID: 1835818254458540383}
   distanciaVision: 7
-  panelArresto: {fileID: 0}
   activarRaycast: 0
   ragdollPrefab: {fileID: 6367407940591815094, guid: ec3fa8de74d474746b24e42eea65b328, type: 3}
   puntoA: {fileID: 0}
@@ -1023,6 +1022,8 @@ MonoBehaviour:
   tiempoEnMovimiento: 15
   tiempoEnEspera: 2
   velocidadGiro: 2
+  rotacionEnA: {x: 0, y: -180, z: 0}
+  rotacionEnB: {x: 0, y: -180, z: 0}
   animator: {fileID: 0}
 --- !u!65 &1365009982149297548
 BoxCollider:
@@ -1689,7 +1690,7 @@ Transform:
   m_GameObject: {fileID: 5509333692725546262}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.08135447, z: -0, w: -0.99668527}
-  m_LocalPosition: {x: 0.04, y: 0.3, z: 1}
+  m_LocalPosition: {x: 0.04, y: 1, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1816,7 +1817,7 @@ Transform:
   m_GameObject: {fileID: 6183466503010674260}
   serializedVersion: 2
   m_LocalRotation: {x: 0.0027650779, y: 0.0735557, z: 0.00013138795, w: -0.9972873}
-  m_LocalPosition: {x: -0.04, y: 0.3, z: 1}
+  m_LocalPosition: {x: -0.04, y: 1, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
