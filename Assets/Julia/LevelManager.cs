@@ -116,7 +116,7 @@ public class LevelManager : MonoBehaviour
 
     public void TriggerArrest()
     {
-        if (!pillado)
+        if (pillado == false)
         {
             pillado = true;
             arrestPanel.SetActive(true);

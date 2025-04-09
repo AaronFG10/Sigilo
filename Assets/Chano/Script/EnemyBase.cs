@@ -14,7 +14,7 @@ public class EnemyBase : MonoBehaviour
     private float barraAlerta = 0f;
     private bool jugadorEnRango = false;
     public PlayerController jugador;
-    [SerializeField] private Image barraDeAvistamiento; // Referencia a la barra de UI
+    [SerializeField] private Image barraDeAvistamiento; 
     public Transform visionIzquierdo;
     public Transform visionDerecho;
     public Transform visionMedio;
@@ -25,9 +25,28 @@ public class EnemyBase : MonoBehaviour
     public bool activarRaycast = false;
     private GameObject panelArresto;
     [SerializeField] private GameObject ragdollPrefab;
-    private LevelManager levelManager;
+    public LevelManager lm;
 
-    
+    [SerializeField] private AudioClip[] sonidosGolpe;
+    private AudioSource audioSource;
+
+
+    void Start()
+    {
+        lm = GameObject.Find("LevelManager").GetComponent<LevelManager>();
+
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+
+        if (lm == null)
+        {
+            Debug.LogError("LevelManager no encontrado al iniciar el enemigo: " + gameObject.name);
+        }
+    }
+
 
     private void Update()
     {
@@ -54,9 +73,12 @@ public class EnemyBase : MonoBehaviour
         else if (other.gameObject.tag == "punch")
         {
             Vector3 direccionDelGolpe = transform.position - other.transform.position;
-            float fuerza = 200f; //Fuerza de la hostia
+            float fuerza = 200f;
+
+            ReproducirSonidoDeGolpe();
             ReemplazarPorRagdoll(direccionDelGolpe, fuerza);
         }
+
     }
 
     private void OnTriggerExit(Collider other)
@@ -168,7 +190,6 @@ public class EnemyBase : MonoBehaviour
                 if (hit.collider.tag =="Player")
                 {
                     Debug.Log("Jugador detectado por " + punto.name);
-                    
                     MostrarPantallaDeArresto();
                 }
             }
@@ -177,21 +198,9 @@ public class EnemyBase : MonoBehaviour
         
     }
     private void MostrarPantallaDeArresto()
-    {/*
-        if (levelManager == null)
-        {
-            levelManager = FindObjectOfType<LevelManager>();
-        }
-
-        if (levelManager != null)
-        {
-            levelManager.TriggerArrest();
-        }
-        else
-        {
-            Debug.LogError("LevelManager no encontrado en la escena.");
-        }
-        */
+    {
+            lm.TriggerArrest();
+            Debug.Log("ACCEDIENDO LM DESDE ENEMYCONTROLLER");
     }
 
 
@@ -223,6 +232,17 @@ public class EnemyBase : MonoBehaviour
         {
             Debug.LogError("No se ha asignado un prefab de ragdoll en el Inspector.");
         }
+    }
+
+    private void ReproducirSonidoDeGolpe()
+    {
+        Debug.Log("Emitiendo sonido aleatoriamente...");
+        if (sonidosGolpe.Length == 0) return;
+
+        int index = Random.Range(0, sonidosGolpe.Length);
+        AudioClip clip = sonidosGolpe[index];
+
+        AudioSource.PlayClipAtPoint(clip, transform.position);
     }
 
 

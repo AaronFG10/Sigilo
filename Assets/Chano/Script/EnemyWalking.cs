@@ -8,8 +8,10 @@ public class EnemyWalking : EnemyBase
     [SerializeField] private float tiempoEnMovimiento;
     [SerializeField] private float tiempoEnEspera;
     [SerializeField] private float velocidadGiro = 2f;
-    [SerializeField] private Vector3 rotacionEnA;
-    [SerializeField] private Vector3 rotacionEnB;
+
+    [SerializeField] private bool giroAIzquierdaEnA = true;
+    [SerializeField] private bool giroAIzquierdaEnB = true;
+
     public Animator animator;
 
     private Transform destinoActual;
@@ -25,7 +27,7 @@ public class EnemyWalking : EnemyBase
     {
         while (true)
         {
-            animator.SetBool("TaMoviendo", true); 
+            animator.SetBool("TaMoviendo", true);
 
             Vector3 inicio = transform.position;
             Vector3 destino = destinoActual.position;
@@ -41,18 +43,22 @@ public class EnemyWalking : EnemyBase
             transform.position = destino;
             animator.SetBool("TaMoviendo", false);
 
-            yield return StartCoroutine(GirarHacia(destinoActual == puntoA ? puntoB : puntoA));
+            // Detectar si estamos en A o B y usar la dirección correspondiente
+            bool giroADerecha = destinoActual == puntoA ? giroAIzquierdaEnB : giroAIzquierdaEnA;
+
+            yield return StartCoroutine(Girar180(giroADerecha));
             yield return new WaitForSeconds(tiempoEnEspera);
 
             destinoActual = destinoActual == puntoA ? puntoB : puntoA;
         }
     }
 
-    private IEnumerator GirarHacia(Transform nuevoDestino)
+    private IEnumerator Girar180(bool haciaDerecha)
     {
-        Vector3 anguloDestino = destinoActual == puntoA ? rotacionEnB : rotacionEnA;
         Quaternion rotacionInicial = transform.rotation;
-        Quaternion rotacionFinal = Quaternion.Euler(anguloDestino);
+
+        float angulo = haciaDerecha ? 180f : -180f;
+        Quaternion rotacionFinal = rotacionInicial * Quaternion.Euler(0, angulo, 0);
 
         float tiempo = 0f;
         while (tiempo < velocidadGiro)
@@ -64,5 +70,4 @@ public class EnemyWalking : EnemyBase
 
         transform.rotation = rotacionFinal;
     }
-
 }
