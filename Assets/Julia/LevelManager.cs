@@ -8,16 +8,6 @@ using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
 {
-    [Header ("UI de interacción")]
-    public TextMeshProUGUI puertasText;
-    public Image puertasButtonImage;
-
-    public TextMeshProUGUI itemsText;
-    public Image itemsButtonImage;
-
-    private Collider currentPuerta;
-    private Collider currentItem;
-
     [Header("Alerta")]
     public Image interrogante;
     public float rangoAlerta = 5f;
@@ -52,32 +42,19 @@ public class LevelManager : MonoBehaviour
     {
         currentLevel = SceneManager.GetActiveScene().buildIndex - 1;
 
-        puertasText.gameObject.SetActive(false);
-        puertasButtonImage.gameObject.SetActive(false);
-
-        itemsText.gameObject.SetActive(false);
-        itemsButtonImage.gameObject.SetActive(false);
-
         interrogante.fillAmount = 0f;
 
         arrestPanel.SetActive(false);
         victoryPanel.SetActive(false);
 
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        Time.timeScale = 1f;
+        pillado = false;
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            InteractPuerta();
-        }
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            InteractItem();
-        }
-
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             TogglePause();
@@ -88,89 +65,6 @@ public class LevelManager : MonoBehaviour
             UpdatePeligro();
             CheckVictory();
         }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Victory"))
-        {
-            TriggerVictory();
-        }
-
-        if (other.CompareTag("door"))
-        {
-            ShowPuertaUI ("Abrir puerta");
-            currentPuerta = other;
-        }
-
-        else if (other.CompareTag("objeto"))
-        {
-            ShowItemsUI ("Recoger objeto");
-            currentItem = other;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("door"))
-        {
-            HidePuertaUI();
-            currentPuerta = null;
-        }
-
-        else if (other.CompareTag("objeto"))
-        {
-            HideItemsUI();
-            currentItem = null;
-        }
-    }
-
-    private void InteractPuerta()
-    {
-        if (currentPuerta != null)
-        {
-            Debug.Log("Puerta abierta");
-            HidePuertaUI();
-            return;
-        }
-    }
-
-    private void InteractItem()
-    {
-        if (currentItem != null)
-        {
-            Debug.Log("Objeto recogido");
-            Destroy(currentItem.gameObject);
-            HideItemsUI();
-            currentItem = null;
-            return;
-        }
-    }
-
-    private void ShowPuertaUI (string message)
-    {
-        puertasText.text = message;
-        puertasText.gameObject.SetActive(true);
-        puertasButtonImage.gameObject.SetActive(true);
-    }
-
-    private void HidePuertaUI()
-    {
-        puertasText.gameObject.SetActive(false);
-        puertasButtonImage.gameObject.SetActive(false);
-    }
-
-    private void ShowItemsUI(string message)
-    {
-        itemsText.text = message;
-        itemsText.gameObject.SetActive(true);
-        itemsButtonImage.gameObject.SetActive(true);
-    }
-
-    private void HideItemsUI()
-    {
-        itemsText.gameObject.SetActive(false);
-        itemsButtonImage.gameObject.SetActive(false);
     }
 
     private void UpdatePeligro()
@@ -220,7 +114,7 @@ public class LevelManager : MonoBehaviour
         pausePanel.SetActive(false);
     }
 
-    private void TriggerArrest()
+    public void TriggerArrest()
     {
         if (!pillado)
         {
