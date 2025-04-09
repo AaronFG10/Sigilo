@@ -21,7 +21,6 @@ public class LevelManager : MonoBehaviour
     public GameObject victoryPanel;
 
     public bool pillado = false;
-
     public Image transitionImage;
     public float transitionSpeed;
 

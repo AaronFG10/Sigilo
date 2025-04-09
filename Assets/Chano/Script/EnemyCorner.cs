@@ -11,6 +11,7 @@ public class EnemyCorner : EnemyBase
 
     void Start()
     {
+        lm = GameObject.Find("LevelManager").GetComponent<LevelManager>();
         StartCoroutine(GirarEnEsquina());
     }
 

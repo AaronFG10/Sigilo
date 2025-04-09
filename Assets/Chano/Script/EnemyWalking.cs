@@ -18,6 +18,7 @@ public class EnemyWalking : EnemyBase
 
     void Start()
     {
+        lm = GameObject.Find("LevelManager").GetComponent<LevelManager>();
         animator = GetComponent<Animator>();
         destinoActual = puntoB;
         StartCoroutine(Patrullar());

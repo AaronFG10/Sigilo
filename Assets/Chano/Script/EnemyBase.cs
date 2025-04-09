@@ -26,7 +26,6 @@ public class EnemyBase : MonoBehaviour
     private GameObject panelArresto;
     [SerializeField] private GameObject ragdollPrefab;
     public LevelManager lm;
-
     [SerializeField] private AudioClip[] sonidosGolpe;
     private AudioSource audioSource;
 
