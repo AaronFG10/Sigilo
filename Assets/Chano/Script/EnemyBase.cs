@@ -27,12 +27,8 @@ public class EnemyBase : MonoBehaviour
     [SerializeField] private GameObject ragdollPrefab;
     private LevelManager levelManager;
 
-    private void Start()
-    {
-        jugador = GetComponent<PlayerController>();
-        panelArresto = GameObject.Find("ArrestadoPanel");
-        panelArresto.SetActive(false);
-    }
+    
+
     private void Update()
     {
         if (activarRaycast)
@@ -180,12 +176,25 @@ public class EnemyBase : MonoBehaviour
         }
         
     }
-    private void MostrarPantallaDeArresto() //PENDIENTE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    {
-        Debug.Log("Intentando abrir el Panel de arresto");
-        panelArresto.SetActive(true);
-        Time.timeScale = 0;
+    private void MostrarPantallaDeArresto()
+    {/*
+        if (levelManager == null)
+        {
+            levelManager = FindObjectOfType<LevelManager>();
+        }
+
+        if (levelManager != null)
+        {
+            levelManager.TriggerArrest();
+        }
+        else
+        {
+            Debug.LogError("LevelManager no encontrado en la escena.");
+        }
+        */
     }
+
+
 
     public void ActivarRaycast(bool estado)
     {
