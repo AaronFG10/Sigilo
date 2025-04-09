@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,7 +7,7 @@ public class MainMenuManager : MonoBehaviour
     [SerializeField]
     private GameObject MainPanel, selectMapPanel;
 
-    private Vector3 originalScale;
+    private Dictionary<Transform, Vector3> originalScales = new Dictionary<Transform, Vector3>();
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -41,18 +42,25 @@ public class MainMenuManager : MonoBehaviour
 
     public void OnButtonSelect(Transform buttonTrans)
     {
-        if (originalScale == Vector3.zero)
+        if (!originalScales.ContainsKey(buttonTrans))
         {
-            originalScale = buttonTrans.localScale;
+            originalScales[buttonTrans] = buttonTrans.localScale;
         }
 
-        buttonTrans.localScale = originalScale * 1.1f;
+        buttonTrans.localScale = originalScales[buttonTrans] * 1.1f;
         buttonTrans.GetChild(0).gameObject.SetActive(true);
     }
 
     public void OnButtonDeselect(Transform buttonTrans)
     {
-        buttonTrans.localScale = originalScale;
-        buttonTrans.GetChild(0).gameObject.SetActive(false);
+        if (originalScales.ContainsKey(buttonTrans))
+        {
+            buttonTrans.localScale = originalScales[buttonTrans];
+        }
+
+        if (buttonTrans.childCount > 0)
+        {
+            buttonTrans.GetChild(0).gameObject.SetActive(false);
+        }
     }
 }

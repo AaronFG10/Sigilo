@@ -36,6 +36,8 @@ public class LevelManager : MonoBehaviour
 
     private bool isPaused = false;
 
+    private Dictionary<Transform, Vector3> originalScales = new Dictionary<Transform, Vector3>();
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -185,6 +187,30 @@ public class LevelManager : MonoBehaviour
 
         int nextSceneIndex = UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex + 1;
         UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneIndex);
+    }
+
+    public void OnButtonSelect(Transform buttonTrans)
+    {
+        if (!originalScales.ContainsKey(buttonTrans))
+        {
+            originalScales[buttonTrans] = buttonTrans.localScale;
+        }
+
+        buttonTrans.localScale = originalScales[buttonTrans] * 1.1f;
+        buttonTrans.GetChild(0).gameObject.SetActive(true);
+    }
+
+    public void OnButtonDeselect(Transform buttonTrans)
+    {
+        if (originalScales.ContainsKey(buttonTrans))
+        {
+            buttonTrans.localScale = originalScales[buttonTrans];
+        }
+
+        if (buttonTrans.childCount > 0)
+        {
+            buttonTrans.GetChild(0).gameObject.SetActive(false);
+        }
     }
 }
 
