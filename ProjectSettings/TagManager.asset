@@ -15,6 +15,7 @@ TagManager:
   - Golpe
   - Enemy
   - Victory
+  - laser
   layers:
   - Default
   - TransparentFX

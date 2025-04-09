@@ -73,7 +73,6 @@ public class PlayerController : MonoBehaviour
     {
 
 
-       
         Vector2 InputValue = playerInput.actions["Move"].ReadValue<Vector2>();
        
         float horizontal = InputValue.x;
@@ -87,7 +86,7 @@ public class PlayerController : MonoBehaviour
         {
             tipoMove = 4;
         }
-
+       
 
 
         if (InputValue!=Vector2.zero)
@@ -277,13 +276,18 @@ Debug.DrawRay(rayOrigin, rayDirection * 5, Color.red, 0.1f);
         }
     }
 
+    public void ChangeEvent(PlayerInput playerInput)
+    {
+        Debug.Log("detecto cambio");
+    }
+
     public void Interactuar(InputAction.CallbackContext context)
     {
         if(interactuable==true && context.performed == true)
         {
-          
             GameManager.instance.gameData.Key1 = true;
             animator.SetTrigger("coger");
+
         }
         if(trap==true && context.started == true)
         {
@@ -315,11 +319,12 @@ Debug.DrawRay(rayOrigin, rayDirection * 5, Color.red, 0.1f);
         {
             case "objeto":
                 interactuable = true;
-             
+                other.transform.GetChild(1).gameObject.SetActive(true);
                 break;
             case "trampa":
                 trap = true;
                 trampa = other.gameObject;
+                other.transform.GetChild(1).gameObject.SetActive(true);
                 break;
             case "win":
                 playerGiro.rotation = Quaternion.LookRotation(new Vector3(-90, 0, 0));
@@ -349,6 +354,9 @@ Debug.DrawRay(rayOrigin, rayDirection * 5, Color.red, 0.1f);
                 AudioManager.instance.PlaySFX(sfxSandia,1);
                 Destroy(other.gameObject);
                 break;
+            case "laser":
+                //pierde;
+                break;
         }
         
   
@@ -359,13 +367,14 @@ Debug.DrawRay(rayOrigin, rayDirection * 5, Color.red, 0.1f);
     {
         if (other.gameObject.tag == "objeto")
         {
-            interactuable = false;     
+            interactuable = false;
+            other.transform.GetChild(1).gameObject.SetActive(false);
         }
         if(other.gameObject.tag=="trampa")
         {
             trap=false;
             trampa=null;
-            
+            other.transform.GetChild(1).gameObject.SetActive(false);
         }
     }
 
@@ -407,7 +416,7 @@ Debug.DrawRay(rayOrigin, rayDirection * 5, Color.red, 0.1f);
             yield return null;
         }
         trampa.transform.GetChild(0).gameObject.SetActive(false);
-     
+        trampa.transform.GetChild(1).gameObject.SetActive(false);
         yield return null;
         trampa = null;
 
