@@ -2111,9 +2111,11 @@ MonoBehaviour:
   distanciaVision: 5
   activarRaycast: 0
   ragdollPrefab: {fileID: 6367407940591815094, guid: ec3fa8de74d474746b24e42eea65b328, type: 3}
+  lm: {fileID: 0}
   sonidosGolpe:
   - {fileID: 8300000, guid: 4f440bed5ab7a8f4682b73d6bdbf4003, type: 3}
   - {fileID: 8300000, guid: 165e10b897dd1f240a5a0d33848b4d9f, type: 3}
+  - {fileID: 8300000, guid: 1b468e56b8d213a4b8bc5410137a5398, type: 3}
   gradosQueGirar: 90
   tiempoEnEspera: 5
   duracionGiro: 0.5
