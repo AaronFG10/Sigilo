@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class LevelManager : MonoBehaviour
 {
@@ -14,6 +16,7 @@ public class LevelManager : MonoBehaviour
     public float currentAlerta = 0f;
     public float speedAlerta = 1f;
 
+    public PlayerController player;
     public GameObject[] enemies;
 
     [Header("Pantallas de juego")]
@@ -54,19 +57,6 @@ public class LevelManager : MonoBehaviour
         pillado = false;
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            TogglePause();
-        }
-
-        if (!pillado)
-        {
-            UpdatePeligro();
-            CheckVictory();
-        }
-    }
 
     private void UpdatePeligro()
     {
@@ -91,20 +81,28 @@ public class LevelManager : MonoBehaviour
         }
     }
 
-    public void TogglePause()
+    public void PauseMenu(InputAction.CallbackContext context)
     {
-        isPaused = !isPaused;
-
-        if (isPaused)
+        if (context.performed)
         {
-            Time.timeScale = 0f;
+            Pause();
+        }
+    }
+
+    public void Pause()
+    {
+        if (pausePanel.activeInHierarchy == false)
+        {
             pausePanel.SetActive(true);
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().ToggleActions(false);
+            Time.timeScale = 0f;
         }
 
         else
         {
+            pausePanel.SetActive (false);
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().ToggleActions(true);
             Time.timeScale = 1f;
-            pausePanel.SetActive(false);
         }
     }
 
@@ -131,14 +129,14 @@ public class LevelManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         sirenAudioSource.Stop();
-        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void ReturnToMainMenu()
     {
         Time.timeScale = 1f;
         sirenAudioSource.Stop();
-        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        SceneManager.LoadScene(0);
     }
 
     public void QuitGame()
@@ -146,15 +144,7 @@ public class LevelManager : MonoBehaviour
         Application.Quit();
     }
 
-    private void CheckVictory()
-    {
-        if (Vector3.Distance(transform.position, GameObject.FindGameObjectWithTag("Victory").transform.position) < 2f)
-        {
-            TriggerVictory();
-        }
-    }
-
-    private void TriggerVictory()
+    public void TriggerVictory()
     {
         if (currentLevel >= totalLevels)
         {
@@ -171,12 +161,25 @@ public class LevelManager : MonoBehaviour
     {
         victoryPanel.SetActive(true);
         Time.timeScale = 0f;
-        victoryAudioSource.Play(); // Reproducir música de victoria
+        victoryAudioSource.Play();
         yield return null;
     }
 
     private IEnumerator LoadNextLevel()
     {
+        RawImage rawImage = transitionImage.GetComponent<RawImage>();
+        VideoPlayer videoPlayer = rawImage.GetComponent<VideoPlayer>();
+
+        videoPlayer.Play();
+
+        TextMeshProUGUI transitionText = transitionImage.GetComponentInChildren<TextMeshProUGUI>();
+        
+        if (transitionText != null)
+        {
+            transitionText.text = "Cargando...";  // Cambia el texto aquí si lo deseas
+            transitionText.gameObject.SetActive(true);
+        }
+
         float alpha = 0f;
         while (alpha < 1f)
         {
@@ -185,8 +188,18 @@ public class LevelManager : MonoBehaviour
             yield return null;
         }
 
-        int nextSceneIndex = UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex + 1;
-        UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneIndex);
+        while (videoPlayer.isPlaying)
+        {
+            yield return null;
+        }
+
+        int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
+        SceneManager.LoadScene(nextSceneIndex);
+
+        if (transitionText != null)
+        {
+            transitionText.gameObject.SetActive(false);
+        }
     }
 
     public void OnButtonSelect(Transform buttonTrans)
