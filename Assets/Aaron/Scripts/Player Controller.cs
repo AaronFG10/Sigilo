@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField]private Material[] materials;
     [SerializeField]private Material[] lastMaterial;
     [SerializeField] private float radioAgujero;
+    private LevelManager lm;
     [Header("Sounds")]
     [SerializeField] private AudioClip sfxKey, sfxDoor, sfxDesactivarLaser, sfxCepo, sfxPuño,sfxPollo,sfxSandia;
 
@@ -46,6 +47,7 @@ public class PlayerController : MonoBehaviour
         capsule = GetComponent<CapsuleCollider>();
         cam= GameObject.Find("MainCamera").GetComponent<CameraController>();
         CameraMain = Camera.main;
+        lm= GameObject.Find("LevelManager").GetComponent<LevelManager>();
         
 
     }
@@ -337,6 +339,7 @@ Debug.DrawRay(rayOrigin, rayDirection * 5, Color.red, 0.1f);
                 animator.SetTrigger("win");
                 cam.Victory();
                 playerController.enabled = false;
+               // lm.CheckVictory();
                 break;
             case "cepo":
                 AudioManager.instance.PlaySFX(sfxCepo, 1);
@@ -354,11 +357,13 @@ Debug.DrawRay(rayOrigin, rayDirection * 5, Color.red, 0.1f);
                 animator.SetTrigger("backflip");
                 Destroy(other.gameObject);
                 AudioManager.instance.PlaySFX(sfxPollo,1);
+                //lm.ActivarPollo();
                 break;
             case "sandia":
                 animator.SetTrigger("backflip");
                 AudioManager.instance.PlaySFX(sfxSandia,1);
                 Destroy(other.gameObject);
+                //lm.ActivarSandia();
                 break;
             case "laser":
                 //pierde;
