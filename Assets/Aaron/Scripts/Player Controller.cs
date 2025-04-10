@@ -470,4 +470,8 @@ Debug.DrawRay(rayOrigin, rayDirection * 5, Color.red, 0.1f);
         cepo.tag = "Untagged";
     }
 
+    public void ToggleActions(bool active)
+    {
+        playerInput.enabled = active;
+    }
 }
