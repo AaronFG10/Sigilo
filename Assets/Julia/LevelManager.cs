@@ -85,7 +85,19 @@ public class LevelManager : MonoBehaviour
     {
         if (context.performed)
         {
-            Pause();
+            if (pausePanel.activeInHierarchy == false)
+            {
+                pausePanel.SetActive(true);
+                GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().ToggleActions(false);
+                Time.timeScale = 0f;
+            }
+
+            else
+            {
+                pausePanel.SetActive(false);
+                GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().ToggleActions(true);
+                Time.timeScale = 1f;
+            }
         }
     }
 
@@ -111,6 +123,7 @@ public class LevelManager : MonoBehaviour
         isPaused = false;
         Time.timeScale = 1f;
         pausePanel.SetActive(false);
+        GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().ToggleActions(true);
     }
 
     public void TriggerArrest()
