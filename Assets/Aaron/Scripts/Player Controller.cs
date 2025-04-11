@@ -225,7 +225,7 @@ Debug.DrawRay(rayOrigin, rayDirection * 5, Color.red, 0.1f);
     {
         if (context.started==true)
         {
-            //lm.Pause();
+            lm.Pause();
         }
     }
 
@@ -317,7 +317,7 @@ Debug.DrawRay(rayOrigin, rayDirection * 5, Color.red, 0.1f);
     {
         if(context.started == true)
         {
-            //lm.Pausa();
+            lm.Pause();
         }
     }
 
@@ -339,7 +339,7 @@ Debug.DrawRay(rayOrigin, rayDirection * 5, Color.red, 0.1f);
                 animator.SetTrigger("win");
                 cam.Victory();
                 playerController.enabled = false;
-               // lm.CheckVictory();
+                lm.TriggerVictory();
                 break;
             case "cepo":
                 AudioManager.instance.PlaySFX(sfxCepo, 1);
@@ -366,7 +366,7 @@ Debug.DrawRay(rayOrigin, rayDirection * 5, Color.red, 0.1f);
                 //lm.ActivarSandia();
                 break;
             case "laser":
-                //pierde;
+                lm.TriggerArrest();
                 break;
         }
         
