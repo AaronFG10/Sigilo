@@ -311,7 +311,7 @@ Debug.DrawRay(rayOrigin, rayDirection * 5, Color.red, 0.1f);
 
     public void Interactuar(InputAction.CallbackContext context)
     {
-        if (context.started) {
+        
             if (interactuable == true && context.performed == true)
             {
                 GameManager.instance.gameData.Key1 = true;
@@ -334,7 +334,7 @@ Debug.DrawRay(rayOrigin, rayDirection * 5, Color.red, 0.1f);
                 StartCoroutine(DesacTrap());
             }
         }
-    }
+    
     public void Pausa(InputAction.CallbackContext context)
     {
         if(context.started == true)
@@ -365,6 +365,7 @@ Debug.DrawRay(rayOrigin, rayDirection * 5, Color.red, 0.1f);
                 break;
             case "cepo":
                 AudioManager.instance.PlaySFX(sfxCepo, 1);
+                other.transform.GetChild(1).gameObject.SetActive(true);
                 StartCoroutine(Cepo());
                 cepo = other.gameObject;
                 cepo.GetComponent<Animator>().SetTrigger("cerrar");
@@ -481,7 +482,7 @@ Debug.DrawRay(rayOrigin, rayDirection * 5, Color.red, 0.1f);
         
         cepo.GetComponent<Collider>().enabled=false;
         cepo.GetComponent<Animator>().SetTrigger("abrir");
-
+        cepo.transform.GetChild(1).gameObject.SetActive(false);
         cepo = null;
         animator.SetTrigger("levantarseCepo");
         yield return null;
