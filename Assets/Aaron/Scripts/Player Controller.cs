@@ -278,7 +278,7 @@ Debug.DrawRay(rayOrigin, rayDirection * 5, Color.red, 0.1f);
                 capsule.center = new Vector3(0.00019f, 1, 0.03492917f);
                 capsule.height = 1;
             }
-            else if (estaAgachado == true && estaCaminando == false)
+            else if (estaAgachado == true && estaCaminando == false && estCorriendo == false)
             {
                 Debug.Log("2");
                 tipoMove = 0;
@@ -288,7 +288,7 @@ Debug.DrawRay(rayOrigin, rayDirection * 5, Color.red, 0.1f);
                 capsule.height = 1.792812f;
 
             }
-            else if (estaAgachado == true && estaCaminando == true)
+            else if (estaAgachado == true && estaCaminando == true&& estCorriendo == false)
             {
                 Debug.Log("3");
                 tipoMove = 0;
@@ -296,7 +296,18 @@ Debug.DrawRay(rayOrigin, rayDirection * 5, Color.red, 0.1f);
                 animator.SetBool("agacharse", false);
                 animator.SetBool("walkDeAgachado", true);
                 animator.SetBool("walk", true);
-                animator.SetBool("camAgachado", true);
+                animator.SetBool("camAgachado", false);
+                capsule.center = new Vector3(0.00019f, 1.439626f, 0.03492917f);
+                capsule.height = 1.792812f;
+            }
+            else if(estaAgachado == true && estaCaminando == true && estCorriendo==true)
+            {
+                tipoMove = 0;
+                estaAgachado = false;
+                animator.SetBool("agacharse", false);
+                animator.SetBool("walkDeAgachado", true);
+                animator.SetBool("correrDeAgachado", true);
+                animator.SetBool("camAgachado", false);
                 capsule.center = new Vector3(0.00019f, 1.439626f, 0.03492917f);
                 capsule.height = 1.792812f;
             }
