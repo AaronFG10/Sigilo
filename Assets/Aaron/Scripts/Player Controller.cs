@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private bool estaAgachado;
     [SerializeField] private bool estCorriendo;
     [SerializeField] private bool punch;
+    [SerializeField] private bool estaCaminando;
 
     [SerializeField] private bool interactuable;
     [SerializeField] private bool trap;
@@ -87,6 +88,7 @@ public class PlayerController : MonoBehaviour
         if(InputValue==Vector2.zero)
         {
             tipoMove = 4;
+            estaCaminando = false;
         }
        
 
@@ -95,6 +97,7 @@ public class PlayerController : MonoBehaviour
         {
             Quaternion angle=Quaternion.LookRotation(new Vector3(horizontal,0,vertical));
             playerGiro.rotation=Quaternion.Slerp(playerGiro.rotation, angle,Time.deltaTime*10);
+            estaCaminando=true;
         }        
 
        
@@ -124,37 +127,39 @@ public class PlayerController : MonoBehaviour
             tipoMove = 4;
             animator.SetBool("camAgachado", false);
         }
-/*
-        //shader agujero pared
-        Collider[] hitColliders= Physics.OverlapSphere(rb.transform.position,10f);
+       
+     
+        /*
+                //shader agujero pared
+                Collider[] hitColliders= Physics.OverlapSphere(rb.transform.position,10f);
 
-        foreach(var hitCollider in hitColliders)
-        {
-              // hitCollider.enabled = false;
-            float x = 0f;
-            if (Vector3.Distance(hitCollider.transform.position, CameraMain.transform.position) < Vector3.Distance(rb.centerOfMass + rb.transform.position, CameraMain.transform.position))
+                foreach(var hitCollider in hitColliders)
                 {
-                x=HoleSize;
-                Debug.Log("if");
-                }
-           
-            try
-            {
-                Material[] materials = hitCollider.transform.GetComponent<Renderer>().materials;
-                Debug.Log("try");
-                for (int i = 0; i < materials.Length; i++) 
-                {
-                    Debug.Log("for");
-                    materials[i].SetFloat("hole", x);
-                }
-            }
-            catch
-            {
-                Debug.Log("catch");
+                      // hitCollider.enabled = false;
+                    float x = 0f;
+                    if (Vector3.Distance(hitCollider.transform.position, CameraMain.transform.position) < Vector3.Distance(rb.centerOfMass + rb.transform.position, CameraMain.transform.position))
+                        {
+                        x=HoleSize;
+                        Debug.Log("if");
+                        }
 
-            }
-        }
-        */
+                    try
+                    {
+                        Material[] materials = hitCollider.transform.GetComponent<Renderer>().materials;
+                        Debug.Log("try");
+                        for (int i = 0; i < materials.Length; i++) 
+                        {
+                            Debug.Log("for");
+                            materials[i].SetFloat("hole", x);
+                        }
+                    }
+                    catch
+                    {
+                        Debug.Log("catch");
+
+                    }
+                }
+                */
 
         Ray ray=Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.4f, 0));//Camera.main.ScreenPointToRay(new Vector3(Screen.width/2,Screen.height/2,0));
         RaycastHit rayHit;
@@ -213,11 +218,13 @@ Debug.DrawRay(rayOrigin, rayDirection * 5, Color.red, 0.1f);
             speed = 1 * nivelSpeed;
             tipoMove = 0;
         }
+     
        
         
         if(context.canceled==true)
         {
             animator.SetBool("walk", false);
+            animator.SetBool("walkDeAgachado", false);
         }
     }
 
@@ -258,59 +265,74 @@ Debug.DrawRay(rayOrigin, rayDirection * 5, Color.red, 0.1f);
     }
     public void Agacharse(InputAction.CallbackContext context)
     {
-        if (context.phase == InputActionPhase.Performed)
+        if (context.started == true)
         {
+            if (estaAgachado == false  )
+            {
+                Debug.Log("1");
+                tipoMove = 1;
+                estaAgachado = true;
+                animator.SetBool("walk", false);
+                animator.SetBool("agacharse", true);
+                speed = 0.5f * nivelSpeed;
+                capsule.center = new Vector3(0.00019f, 1, 0.03492917f);
+                capsule.height = 1;
+            }
+            else if (estaAgachado == true && estaCaminando == false)
+            {
+                Debug.Log("2");
+                tipoMove = 0;
+                estaAgachado = false;
+                animator.SetBool("agacharse", false);
+                capsule.center = new Vector3(0.00019f, 1.439626f, 0.03492917f);
+                capsule.height = 1.792812f;
 
-            Debug.Log("Pasa algo");
-        }
-        if(estaAgachado==false)
-        {
-            tipoMove=1;
-            estaAgachado = true;
-            animator.SetBool("walk", false);
-            animator.SetBool("agacharse",true);
-            speed = 0.5f * nivelSpeed;
-            capsule.center =new Vector3(0.00019f, 1, 0.03492917f);
-            capsule.height = 1; 
-        }
-        else if(estaAgachado==true)
-        {
-            tipoMove = 0;
-            estaAgachado = false;
-            animator.SetBool("agacharse", false);
-            capsule.center = new Vector3(0.00019f, 1.439626f, 0.03492917f);
-            capsule.height = 1.792812f;
-
+            }
+            else if (estaAgachado == true && estaCaminando == true)
+            {
+                Debug.Log("3");
+                tipoMove = 0;
+                estaAgachado = false;
+                animator.SetBool("agacharse", false);
+                animator.SetBool("walkDeAgachado", true);
+                animator.SetBool("walk", true);
+                animator.SetBool("camAgachado", true);
+                capsule.center = new Vector3(0.00019f, 1.439626f, 0.03492917f);
+                capsule.height = 1.792812f;
+            }
+           
         }
     }
 
-    public void ChangeEvent(PlayerInput playerInput)
+        public void ChangeEvent(PlayerInput playerInput)
     {
         Debug.Log("detecto cambio");
     }
 
     public void Interactuar(InputAction.CallbackContext context)
     {
-        if(interactuable==true && context.performed == true)
-        {
-            GameManager.instance.gameData.Key1 = true;
-            animator.SetTrigger("coger");
+        if (context.started) {
+            if (interactuable == true && context.performed == true)
+            {
+                GameManager.instance.gameData.Key1 = true;
+                animator.SetTrigger("coger");
 
-        }
-        if(trap==true && context.started == true)
-        {
-            
-           
-            trap = false;
-            animator.SetTrigger("desac");
-            Vector3 transformPlayaer=transform.position;
-            transformPlayaer=new Vector3(trampa.transform.position.x,transform.position.y,trampa.transform.position.z);
-            transform.position = transformPlayaer;
-            Vector3 direccion = trampa.transform.position-transform.position;
-            direccion.y = transform.rotation.y;
-            Quaternion rotacion = Quaternion.LookRotation(direccion);
-            transform.rotation = rotacion;
-            StartCoroutine(DesacTrap());
+            }
+            if (trap == true && context.started == true)
+            {
+
+
+                trap = false;
+                animator.SetTrigger("desac");
+                Vector3 transformPlayaer = transform.position;
+                transformPlayaer = new Vector3(trampa.transform.position.x, transform.position.y, trampa.transform.position.z);
+                transform.position = transformPlayaer;
+                Vector3 direccion = trampa.transform.position - transform.position;
+                direccion.y = transform.rotation.y;
+                Quaternion rotacion = Quaternion.LookRotation(direccion);
+                transform.rotation = rotacion;
+                StartCoroutine(DesacTrap());
+            }
         }
     }
     public void Pausa(InputAction.CallbackContext context)
@@ -357,13 +379,13 @@ Debug.DrawRay(rayOrigin, rayDirection * 5, Color.red, 0.1f);
                 animator.SetTrigger("backflip");
                 Destroy(other.gameObject);
                 AudioManager.instance.PlaySFX(sfxPollo,1);
-                //lm.ActivarPollo();
+                GameManager.instance.polloCount++;
                 break;
             case "sandia":
                 animator.SetTrigger("backflip");
                 AudioManager.instance.PlaySFX(sfxSandia,1);
                 Destroy(other.gameObject);
-                //lm.ActivarSandia();
+                GameManager.instance.sandiaCount++;
                 break;
             case "laser":
                 lm.TriggerArrest();
