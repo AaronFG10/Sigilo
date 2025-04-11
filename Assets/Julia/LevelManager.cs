@@ -40,6 +40,9 @@ public class LevelManager : MonoBehaviour
 
     private Dictionary<Transform, Vector3> originalScales = new Dictionary<Transform, Vector3>();
 
+    public TextMeshProUGUI polloText;
+    public TextMeshProUGUI sandiaText;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -174,6 +177,8 @@ public class LevelManager : MonoBehaviour
     private IEnumerator ShowVictoryPanel()
     {
         victoryPanel.SetActive(true);
+        polloText.text = GameManager.instance.polloCount.ToString();
+        sandiaText.text = GameManager.instance.sandiaCount.ToString();
         victoryPanel.transform.GetChild(1).GetComponent<Button>().Select();
         Time.timeScale = 0f;
         victoryAudioSource.Play();
