@@ -12,6 +12,6 @@ public class InventoryObject : ScriptableObject
 
     public enum ItemType
     {
-        Llave,
+        Llave, Pollo, Sandía
     }
 }
