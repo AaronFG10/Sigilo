@@ -306,7 +306,7 @@ Debug.DrawRay(rayOrigin, rayDirection * 5, Color.red, 0.1f);
                 estaAgachado = false;
                 animator.SetBool("agacharse", false);
                 animator.SetBool("walkDeAgachado", true);
-                animator.SetBool("correr", true);
+                animator.SetBool("correrDeAgachado", true);
                 animator.SetBool("camAgachado", false);
                 capsule.center = new Vector3(0.00019f, 1.439626f, 0.03492917f);
                 capsule.height = 1.792812f;
