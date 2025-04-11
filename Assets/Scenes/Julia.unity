@@ -7154,6 +7154,8 @@ MonoBehaviour:
   gameData:
     key1: 0
   mapSelected: 0
+  polloCount: 0
+  sandiaCount: 0
 --- !u!1 &889760879
 GameObject:
   m_ObjectHideFlags: 0
@@ -11525,8 +11527,8 @@ Transform:
   m_GameObject: {fileID: 1239284616}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 65.5, y: 32.5, z: -644}
-  m_LocalScale: {x: 149.03677, y: 1, z: 100.02004}
+  m_LocalPosition: {x: 65.5, y: 37.2, z: -594.5}
+  m_LocalScale: {x: 149.03677, y: 14.953, z: 100.02004}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
