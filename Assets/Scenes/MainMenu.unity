@@ -2312,7 +2312,7 @@ GameObject:
   - component: {fileID: 1192280808}
   - component: {fileID: 1192280811}
   m_Layer: 5
-  m_Name: CasaChano
+  m_Name: CasaJulia
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2817,7 +2817,7 @@ GameObject:
   - component: {fileID: 1537157909}
   - component: {fileID: 1537157912}
   m_Layer: 5
-  m_Name: CasaJulia
+  m_Name: CasaChano
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2919,7 +2919,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: fc8e604de55d19246b4e81868e0e526d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e37892ea541d147459199fc243e48a58, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
