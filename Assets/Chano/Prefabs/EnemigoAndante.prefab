@@ -1022,6 +1022,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 4f440bed5ab7a8f4682b73d6bdbf4003, type: 3}
   - {fileID: 8300000, guid: 165e10b897dd1f240a5a0d33848b4d9f, type: 3}
   - {fileID: 8300000, guid: 1b468e56b8d213a4b8bc5410137a5398, type: 3}
+  - {fileID: 8300000, guid: e9f412a0a3793294ca12c69adfeeecce, type: 3}
+  - {fileID: 8300000, guid: 3318b2b5d9b9596439313ee6e5633382, type: 3}
+  - {fileID: 8300000, guid: 39dbfb43bf8bea64688c20bcb9608745, type: 3}
   puntoA: {fileID: 0}
   puntoB: {fileID: 0}
   tiempoEnMovimiento: 15
