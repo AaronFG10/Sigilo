@@ -7,6 +7,10 @@ public class GameManager : MonoBehaviour
     public GameData gameData;
 
     public int mapSelected;
+
+    public int polloCount;
+
+    public int sandiaCount;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     private void Awake()
