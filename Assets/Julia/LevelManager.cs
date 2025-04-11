@@ -22,10 +22,9 @@ public class LevelManager : MonoBehaviour
     [Header("Pantallas de juego")]
     public GameObject arrestPanel;
     public GameObject victoryPanel;
+    public GameObject transitionPanel;
 
     public bool pillado = false;
-    public Image transitionImage;
-    public float transitionSpeed;
 
     public int currentLevel;
     public int totalLevels = 3;
@@ -180,39 +179,10 @@ public class LevelManager : MonoBehaviour
 
     private IEnumerator LoadNextLevel()
     {
-        RawImage rawImage = transitionImage.GetComponent<RawImage>();
-        VideoPlayer videoPlayer = rawImage.GetComponent<VideoPlayer>();
-
-        videoPlayer.Play();
-
-        TextMeshProUGUI transitionText = transitionImage.GetComponentInChildren<TextMeshProUGUI>();
-        
-        if (transitionText != null)
-        {
-            transitionText.text = "Cargando...";  // Cambia el texto aquí si lo deseas
-            transitionText.gameObject.SetActive(true);
-        }
-
-        float alpha = 0f;
-        while (alpha < 1f)
-        {
-            alpha += Time.unscaledDeltaTime * transitionSpeed;
-            transitionImage.color = new Color(0f, 0f, 0f, alpha);
-            yield return null;
-        }
-
-        while (videoPlayer.isPlaying)
-        {
-            yield return null;
-        }
-
+        transitionPanel.SetActive(true);
+        yield return new WaitForSeconds(10f);
         int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
         SceneManager.LoadScene(nextSceneIndex);
-
-        if (transitionText != null)
-        {
-            transitionText.gameObject.SetActive(false);
-        }
     }
 
     public void OnButtonSelect(Transform buttonTrans)
