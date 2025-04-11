@@ -106,6 +106,7 @@ public class LevelManager : MonoBehaviour
         {
             pausePanel.SetActive(true);
             GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>().ToggleActions(false);
+            pausePanel.transform.GetChild(0).GetChild(1).GetComponent<Button>().Select();
             Time.timeScale = 0f;
         }
 
@@ -131,6 +132,7 @@ public class LevelManager : MonoBehaviour
         {
             pillado = true;
             arrestPanel.SetActive(true);
+            arrestPanel.transform.GetChild(4).GetComponent<Button>().Select();
             Time.timeScale = 0f;
 
             sirenAudioSource.Play();
@@ -172,6 +174,7 @@ public class LevelManager : MonoBehaviour
     private IEnumerator ShowVictoryPanel()
     {
         victoryPanel.SetActive(true);
+        victoryPanel.transform.GetChild(1).GetComponent<Button>().Select();
         Time.timeScale = 0f;
         victoryAudioSource.Play();
         yield return null;

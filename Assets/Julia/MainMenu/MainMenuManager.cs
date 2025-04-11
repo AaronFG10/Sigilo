@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class MainMenuManager : MonoBehaviour
     {
         selectMapPanel.SetActive(true);
         MainPanel.SetActive(false);
+        selectMapPanel.transform.GetChild(1).GetComponent < Button > ().Select();
     }
 
     public void BackToMain()
