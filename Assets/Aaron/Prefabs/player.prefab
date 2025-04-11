@@ -100,7 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animator: {fileID: 8929770196732981126}
   speed: 1
-  nivelSpeed: 0
+  nivelSpeed: 1
   tipoMove: 0
   estaAgachado: 0
   estCorriendo: 0
@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
+  m_Actions: {fileID: -944628639613478452, guid: ec1d05932c6448a42849b9f7ce4241a5, type: 3}
   m_NotificationBehavior: 2
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
@@ -145,7 +145,19 @@ MonoBehaviour:
       m_Calls: []
   m_ControlsChangedEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8984300683022110064}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: ChangeEvent
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
@@ -161,8 +173,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 795df593-b724-4bec-b5ca-28c6729fc216
-    m_ActionName: 'Player/Move[/Keyboard/w,/Keyboard/a,/Keyboard/s,/Keyboard/d]'
+    m_ActionId: b80efd79-533b-49cc-a28e-10906c2e3937
+    m_ActionName: 'Move/New action[/XInputControllerWindows/leftStick]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8984300683022110064}
@@ -177,8 +189,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 84cf156b-252f-4a92-be2a-ae149272e5de
-    m_ActionName: 'Player/Punch[/Keyboard/e]'
+    m_ActionId: f5e373a5-b9cf-4eee-9843-e6fd4391a644
+    m_ActionName: 'Player/Punch[/Keyboard/e,/XInputControllerWindows/buttonWest]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8984300683022110064}
@@ -193,8 +205,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 412dc2be-ce6d-4a48-89ea-6a45ad42e274
-    m_ActionName: 'Player/Agacharse[/Keyboard/leftCtrl]'
+    m_ActionId: 4dbc622a-78b6-4539-8499-d10c18c5dc13
+    m_ActionName: 'Player/Agacharse[/XInputControllerWindows/buttonEast,/Keyboard/leftCtrl]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8984300683022110064}
@@ -209,8 +221,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: d088930f-05fa-459e-897a-7c16699501c4
-    m_ActionName: 'Player/Correr[/Keyboard/leftShift]'
+    m_ActionId: e5e60af6-a4cc-45c7-884a-e10f3499c140
+    m_ActionName: 'Player/Correr[/Keyboard/leftShift,/XInputControllerWindows/rightTrigger]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8984300683022110064}
@@ -225,8 +237,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: e11f4f4d-8226-4cc4-9dce-1eadd2d28259
-    m_ActionName: 'Player/Interactuar[/Keyboard/q]'
+    m_ActionId: 80865528-9e42-4ffe-b397-e2ca96a0789c
+    m_ActionName: 'Player/Interactuar[/Keyboard/q,/XInputControllerWindows/buttonNorth]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8984300683022110064}
@@ -241,8 +253,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-    m_ActionId: 9e2b3b2f-15c8-43dc-be60-4de4f9addbff
-    m_ActionName: 'Player/Space[/Keyboard/space]'
+    m_ActionId: df30c1b0-85a9-4c0a-b530-9ed443d37265
+    m_ActionName: 'Player/Space[/Keyboard/space,/XInputControllerWindows/buttonSouth]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a4e22267-ebf0-4860-8821-8350e2c52693
+    m_ActionName: 'Player/Pause[/Keyboard/escape]'
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
