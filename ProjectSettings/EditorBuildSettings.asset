@@ -7,7 +7,16 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    guid: 06d9eda5ea48af748b82bad81f3175a9
+  - enabled: 1
+    path: Assets/Scenes/Julia.unity
+    guid: 3542a6d26eed50b4f9c9e411bb972cf2
+  - enabled: 1
+    path: Assets/Scenes/Aaron.unity
+    guid: 4bd5d29910aa3274db4b048bcc4fd5ad
+  - enabled: 1
+    path: Assets/Scenes/Chano.unity
+    guid: ecac9dea36246c14190769a3bad2350d
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: ae5b393d6dcd6fb4d814eb5a7b7dd634, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

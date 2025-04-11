@@ -43,7 +43,7 @@ public class LevelManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        currentLevel = SceneManager.GetActiveScene().buildIndex - 1;
+        currentLevel = SceneManager.GetActiveScene().buildIndex;
 
         interrogante.fillAmount = 0f;
 
@@ -158,7 +158,7 @@ public class LevelManager : MonoBehaviour
 
     public void TriggerVictory()
     {
-        if (currentLevel >= totalLevels)
+        if (currentLevel == totalLevels)
         {
             StartCoroutine(ShowVictoryPanel());
         }

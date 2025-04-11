@@ -37,7 +37,7 @@ public class MainMenuManager : MonoBehaviour
     {
         GameManager.instance.mapSelected = mapSelected;
 
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(mapSelected);
     }
 
     public void OnButtonSelect(Transform buttonTrans)

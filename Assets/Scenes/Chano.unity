@@ -12527,7 +12527,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1871983668995484716, guid: c998fb722b0202742ba2cf2d7d676a31, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: 1.02
       objectReference: {fileID: 0}
     - target: {fileID: 1871983668995484716, guid: c998fb722b0202742ba2cf2d7d676a31, type: 3}
       propertyPath: m_LocalPosition.z
@@ -14502,7 +14502,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 599.99994, y: -354.99997}
+  m_AnchoredPosition: {x: 599.99994, y: -355.3226}
   m_SizeDelta: {x: 221, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1055132008
@@ -14594,7 +14594,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1522096687}
         m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
         m_MethodName: QuitGame
         m_Mode: 1
@@ -21773,10 +21773,9 @@ MonoBehaviour:
   enemies: []
   arrestPanel: {fileID: 1540359411}
   victoryPanel: {fileID: 728536086}
+  transitionPanel: {fileID: 1961156086}
   pillado: 0
-  transitionImage: {fileID: 1961156088}
-  transitionSpeed: 1
-  currentLevel: 1
+  currentLevel: 3
   totalLevels: 3
   sirenAudioSource: {fileID: 1522096686}
   victoryAudioSource: {fileID: 1522096685}
@@ -27141,6 +27140,34 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3909633004294495649, guid: a118dde4447b7114cbeb6d19eac84045, type: 3}
+      propertyPath: m_ActionEvents.Array.data[6].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3909633004294495649, guid: a118dde4447b7114cbeb6d19eac84045, type: 3}
+      propertyPath: m_ActionEvents.Array.data[6].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3909633004294495649, guid: a118dde4447b7114cbeb6d19eac84045, type: 3}
+      propertyPath: m_ActionEvents.Array.data[6].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1522096687}
+    - target: {fileID: 3909633004294495649, guid: a118dde4447b7114cbeb6d19eac84045, type: 3}
+      propertyPath: m_ActionEvents.Array.data[6].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3909633004294495649, guid: a118dde4447b7114cbeb6d19eac84045, type: 3}
+      propertyPath: m_ActionEvents.Array.data[6].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Pause
+      objectReference: {fileID: 0}
+    - target: {fileID: 3909633004294495649, guid: a118dde4447b7114cbeb6d19eac84045, type: 3}
+      propertyPath: m_ActionEvents.Array.data[6].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: LevelManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3909633004294495649, guid: a118dde4447b7114cbeb6d19eac84045, type: 3}
+      propertyPath: m_ActionEvents.Array.data[6].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 7183113837264984916, guid: a118dde4447b7114cbeb6d19eac84045, type: 3}
       propertyPath: m_Name
       value: player
@@ -27159,7 +27186,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9192331303767244982, guid: a118dde4447b7114cbeb6d19eac84045, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.9
+      value: -13.85
       objectReference: {fileID: 0}
     - target: {fileID: 9192331303767244982, guid: a118dde4447b7114cbeb6d19eac84045, type: 3}
       propertyPath: m_LocalPosition.y
@@ -27167,7 +27194,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9192331303767244982, guid: a118dde4447b7114cbeb6d19eac84045, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -35.2
+      value: -21.84
       objectReference: {fileID: 0}
     - target: {fileID: 9192331303767244982, guid: a118dde4447b7114cbeb6d19eac84045, type: 3}
       propertyPath: m_LocalRotation.w
@@ -29353,7 +29380,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 199.99998, y: -354.99997}
+  m_AnchoredPosition: {x: 199.99998, y: -355.3226}
   m_SizeDelta: {x: 221, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2049561107
@@ -29445,7 +29472,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1522096687}
         m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
         m_MethodName: ReturnToMainMenu
         m_Mode: 1
