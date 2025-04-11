@@ -1135,7 +1135,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 1522096684}
           m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
           m_MethodName: OnButtonSelect
           m_Mode: 2
@@ -1151,7 +1151,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 1522096684}
           m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
           m_MethodName: OnButtonDeselect
           m_Mode: 2
@@ -1207,7 +1207,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1522096687}
         m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
         m_MethodName: RetryLevel
         m_Mode: 1
@@ -12762,7 +12762,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 1522096687}
           m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
           m_MethodName: OnButtonSelect
           m_Mode: 2
@@ -12778,7 +12778,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 1522096687}
           m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
           m_MethodName: OnButtonDeselect
           m_Mode: 2
@@ -12834,7 +12834,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1522096687}
         m_TargetAssemblyTypeName: LevelManager, Assembly-CSharp
         m_MethodName: ReturnToMainMenu
         m_Mode: 1

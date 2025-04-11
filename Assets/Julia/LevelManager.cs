@@ -32,6 +32,7 @@ public class LevelManager : MonoBehaviour
     [Header("Audio")]
     public AudioSource sirenAudioSource;
     public AudioSource victoryAudioSource;
+    
 
     [Header("Pantalla de pausa")]
     public GameObject pausePanel;
